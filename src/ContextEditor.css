@@ -1,0 +1,67 @@
+/* ContextEditor.css */
+
+/* Overall container styling */
+.context-editor {
+    padding: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Heading styling */
+  .context-editor h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #333;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 5px;
+  }
+  
+  /* Input field styling */
+  .context-editor input,
+  .context-editor textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 1rem;
+    resize: vertical;
+    box-sizing: border-box;
+  }
+  
+  /* Button styling */
+  .context-editor button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  /* Button hover effect */
+  .context-editor button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Loading state button styling */
+  .context-editor button:disabled {
+    background-color: #6c757d;
+    cursor: not-allowed;
+  }
+  
+  /* Spacing adjustments for the form elements */
+  .context-editor .form-section {
+    margin-bottom: 20px;
+  }
+  
+  .context-editor .form-section:last-child {
+    margin-bottom: 0;
+  }

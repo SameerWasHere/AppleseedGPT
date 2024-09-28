@@ -1,24 +1,24 @@
 // ContextEditor.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import './ContextEditor.css'; // Import the new CSS file
 
 function ContextEditor() {
-  const [title, setTitle] = useState(''); // State for the title
+  const [title, setTitle] = useState(''); 
   const [context, setContext] = useState('');
   const [initialMessage, setInitialMessage] = useState('');
   const [loading, setLoading] = useState(false);
 
-  // Fetch the current title, context, and initial message when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const titleResponse = await axios.get('/api/getTitle'); // Endpoint to get the title
+        const titleResponse = await axios.get('/api/getTitle');
         setTitle(titleResponse.data.title);
 
         const contextResponse = await axios.get('/api/getContext');
         setContext(contextResponse.data.context);
 
-        const messageResponse = await axios.get('/api/getInitialMessage'); // Endpoint to get initial message
+        const messageResponse = await axios.get('/api/getInitialMessage');
         setInitialMessage(messageResponse.data.initialMessage);
       } catch (error) {
         alert('Failed to fetch data from the database.');
@@ -28,11 +28,10 @@ function ContextEditor() {
     fetchData();
   }, []);
 
-  // Handler to update the title in the database
   const handleUpdateTitle = async () => {
     try {
       setLoading(true);
-      await axios.post('/api/updateTitle', { title }); // Endpoint to update the title
+      await axios.post('/api/updateTitle', { title });
       alert('Title updated successfully.');
     } catch (error) {
       alert('Failed to update the title.');
@@ -41,7 +40,6 @@ function ContextEditor() {
     }
   };
 
-  // Handler to update the context in the database
   const handleUpdateContext = async () => {
     try {
       setLoading(true);
@@ -54,7 +52,6 @@ function ContextEditor() {
     }
   };
 
-  // Handler to update the initial message in the database
   const handleUpdateInitialMessage = async () => {
     try {
       setLoading(true);
@@ -69,36 +66,42 @@ function ContextEditor() {
 
   return (
     <div className="context-editor">
-      <h2>Title Editor</h2>
-      <input
-        type="text"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        placeholder="Edit the title..."
-      />
-      <button onClick={handleUpdateTitle} disabled={loading}>
-        {loading ? 'Updating...' : 'Update Title'}
-      </button>
+      <div className="form-section">
+        <h2>Title Editor</h2>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Edit the title..."
+        />
+        <button onClick={handleUpdateTitle} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Title'}
+        </button>
+      </div>
 
-      <h2>Context Editor</h2>
-      <textarea
-        value={context}
-        onChange={(e) => setContext(e.target.value)}
-        placeholder="Edit the AppleseedGPT context..."
-      />
-      <button onClick={handleUpdateContext} disabled={loading}>
-        {loading ? 'Updating...' : 'Update Context'}
-      </button>
+      <div className="form-section">
+        <h2>Context Editor</h2>
+        <textarea
+          value={context}
+          onChange={(e) => setContext(e.target.value)}
+          placeholder="Edit the AppleseedGPT context..."
+        />
+        <button onClick={handleUpdateContext} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Context'}
+        </button>
+      </div>
 
-      <h2>Initial Message Editor</h2>
-      <textarea
-        value={initialMessage}
-        onChange={(e) => setInitialMessage(e.target.value)}
-        placeholder="Edit the initial message..."
-      />
-      <button onClick={handleUpdateInitialMessage} disabled={loading}>
-        {loading ? 'Updating...' : 'Update Initial Message'}
-      </button>
+      <div className="form-section">
+        <h2>Initial Message Editor</h2>
+        <textarea
+          value={initialMessage}
+          onChange={(e) => setInitialMessage(e.target.value)}
+          placeholder="Edit the initial message..."
+        />
+        <button onClick={handleUpdateInitialMessage} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Initial Message'}
+        </button>
+      </div>
     </div>
   );
 }
