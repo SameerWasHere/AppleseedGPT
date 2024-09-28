@@ -4,48 +4,73 @@ import axios from 'axios';
 
 function ContextEditor() {
   const [context, setContext] = useState('');
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [initialMessage, setInitialMessage] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  // Fetch the current context from the database when the component mounts
+  // Fetch the current context and initial message when the component mounts
   useEffect(() => {
     const fetchContext = async () => {
       try {
-        const response = await axios.get('/api/getContext'); // Create this endpoint
-        setContext(response.data.context);
-        setLoading(false);
-      } catch (err) {
-        setError('Failed to fetch context');
-        setLoading(false);
+        const contextResponse = await axios.get('/api/getContext');
+        setContext(contextResponse.data.context);
+
+        const messageResponse = await axios.get('/api/getInitialMessage'); // Create this endpoint to get initial message
+        setInitialMessage(messageResponse.data.initialMessage);
+      } catch (error) {
+        alert('Failed to fetch data from the database.');
       }
     };
 
     fetchContext();
   }, []);
 
-  // Handle context update
+  // Handler to update the context in the database
   const handleUpdateContext = async () => {
     try {
+      setLoading(true);
       await axios.post('/api/updateContext', { context });
-      alert('Context updated successfully!');
-    } catch (err) {
+      alert('Context updated successfully.');
+    } catch (error) {
       alert('Failed to update context.');
+    } finally {
+      setLoading(false);
     }
   };
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+  // Handler to update the initial message in the database
+  const handleUpdateInitialMessage = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/updateInitialMessage', { initialMessage }); // Create this endpoint to update initial message
+      alert('Initial message updated successfully.');
+    } catch (error) {
+      alert('Failed to update the initial message.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="context-editor">
-      <h2>Edit Context</h2>
+      <h2>Context Editor</h2>
       <textarea
         value={context}
         onChange={(e) => setContext(e.target.value)}
-        rows="20"
-        cols="80"
+        placeholder="Edit the AppleseedGPT context..."
       />
-      <button onClick={handleUpdateContext}>Update Context</button>
+      <button onClick={handleUpdateContext} disabled={loading}>
+        {loading ? 'Updating...' : 'Update Context'}
+      </button>
+
+      <h2>Initial Message Editor</h2>
+      <textarea
+        value={initialMessage}
+        onChange={(e) => setInitialMessage(e.target.value)}
+        placeholder="Edit the initial message..."
+      />
+      <button onClick={handleUpdateInitialMessage} disabled={loading}>
+        {loading ? 'Updating...' : 'Update Initial Message'}
+      </button>
     </div>
   );
 }
