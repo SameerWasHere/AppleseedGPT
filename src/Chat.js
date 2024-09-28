@@ -93,7 +93,7 @@ function Chat() {
       <div className="input-area">
         <input
           type="text"
-          placeholder="Ask AppleseedGPT..."
+          placeholder={`Ask ${title}...`} 
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => {
