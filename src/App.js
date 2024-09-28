@@ -11,23 +11,31 @@ function App() {
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [title, setTitle] = useState(''); // State to store the title
+  const [email, setEmail] = useState(''); // State to store the email
 
-  // Fetch the title from the database when the component mounts
+  // Fetch the title and email from the database when the component mounts
   useEffect(() => {
-    const fetchTitle = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get('/api/getTitle'); // API endpoint to fetch the title
-        if (response.data && response.data.title) {
-          setTitle(response.data.title);
+        const titleResponse = await axios.get('/api/getTitle'); // API endpoint to fetch the title
+        if (titleResponse.data && titleResponse.data.title) {
+          setTitle(titleResponse.data.title);
         } else {
           alert('Failed to load the title.');
         }
+
+        const emailResponse = await axios.get('/api/getEmail'); // API endpoint to fetch the email
+        if (emailResponse.data && emailResponse.data.email) {
+          setEmail(emailResponse.data.email);
+        } else {
+          alert('Failed to load the email.');
+        }
       } catch (error) {
-        alert('An error occurred while fetching the title.');
+        alert('An error occurred while fetching the data.');
       }
     };
 
-    fetchTitle();
+    fetchData();
   }, []);
 
   // Handler for GIF click
@@ -55,7 +63,11 @@ function App() {
     <div className="app-container">
       {/* Header Area */}
       <div className="header-area">
-        <a href="mailto:airesume@gmail.com" className="header-icon left-icon" aria-label="Send Email">
+        <a
+          href={`mailto:${email || 'loading@example.com'}`} // Use the fetched email or a fallback
+          className="header-icon left-icon"
+          aria-label="Send Email"
+        >
           <img src="/mail.png" alt="Mail Icon" />
         </a>
 
@@ -97,7 +109,7 @@ function App() {
       {isAuthenticated ? (
         <ContextEditor />
       ) : (
-        <Chat title={title} /> // Passing title to Chat component
+        <Chat title={title} />
       )}
     </div>
   );

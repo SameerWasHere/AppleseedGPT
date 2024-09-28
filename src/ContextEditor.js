@@ -1,14 +1,16 @@
 // ContextEditor.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './ContextEditor.css'; // Import the new CSS file
+import './ContextEditor.css'; // Ensure the CSS file is properly linked
 
 function ContextEditor() {
-  const [title, setTitle] = useState(''); 
+  const [title, setTitle] = useState('');
   const [context, setContext] = useState('');
   const [initialMessage, setInitialMessage] = useState('');
+  const [email, setEmail] = useState(''); // State to store the email
   const [loading, setLoading] = useState(false);
 
+  // Fetch the current title, context, initial message, and email when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -20,6 +22,9 @@ function ContextEditor() {
 
         const messageResponse = await axios.get('/api/getInitialMessage');
         setInitialMessage(messageResponse.data.initialMessage);
+
+        const emailResponse = await axios.get('/api/getEmail'); // Fetch the email
+        setEmail(emailResponse.data.email);
       } catch (error) {
         alert('Failed to fetch data from the database.');
       }
@@ -28,6 +33,7 @@ function ContextEditor() {
     fetchData();
   }, []);
 
+  // Handler to update the title in the database
   const handleUpdateTitle = async () => {
     try {
       setLoading(true);
@@ -40,6 +46,7 @@ function ContextEditor() {
     }
   };
 
+  // Handler to update the context in the database
   const handleUpdateContext = async () => {
     try {
       setLoading(true);
@@ -52,6 +59,7 @@ function ContextEditor() {
     }
   };
 
+  // Handler to update the initial message in the database
   const handleUpdateInitialMessage = async () => {
     try {
       setLoading(true);
@@ -59,6 +67,19 @@ function ContextEditor() {
       alert('Initial message updated successfully.');
     } catch (error) {
       alert('Failed to update the initial message.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handler to update the email in the database
+  const handleUpdateEmail = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/updateEmail', { email }); // Create this endpoint to update email
+      alert('Email updated successfully.');
+    } catch (error) {
+      alert('Failed to update the email.');
     } finally {
       setLoading(false);
     }
@@ -100,6 +121,19 @@ function ContextEditor() {
         />
         <button onClick={handleUpdateInitialMessage} disabled={loading}>
           {loading ? 'Updating...' : 'Update Initial Message'}
+        </button>
+      </div>
+
+      <div className="form-section">
+        <h2>Email Editor</h2>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Edit the email..."
+        />
+        <button onClick={handleUpdateEmail} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Email'}
         </button>
       </div>
     </div>
