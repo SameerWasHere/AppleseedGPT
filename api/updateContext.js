@@ -5,7 +5,7 @@ export default async function handler(req, res) {
   if (req.method === 'POST') {
     const { context } = req.body;
     try {
-      await kv.set('sameer_context', context);
+      await kv.set('appleseed_context', context);
       res.status(200).json({ message: 'Context updated successfully.' });
     } catch (error) {
       res.status(500).json({ error: 'Failed to update context.' });
