@@ -1,8 +1,9 @@
+// Chat.js
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Chat.css';
 
-function Chat() {
+function Chat({ title }) { // Accept title as a prop
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const chatWindowRef = useRef(null); // Reference to the chat window
@@ -93,7 +94,7 @@ function Chat() {
       <div className="input-area">
         <input
           type="text"
-          placeholder={`Ask ${title}...`} 
+          placeholder={`Ask ${title || 'GPT'}...`} // Use the fetched title or a fallback
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyPress={(e) => {

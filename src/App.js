@@ -1,5 +1,6 @@
 // App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Chat from './Chat.js';
 import './App.css';
 import ContextEditor from './ContextEditor.js'; // Ensure the path is correct
@@ -9,6 +10,25 @@ function App() {
   const [showPasswordPanel, setShowPasswordPanel] = useState(false);
   const [password, setPassword] = useState('');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [title, setTitle] = useState(''); // State to store the title
+
+  // Fetch the title from the database when the component mounts
+  useEffect(() => {
+    const fetchTitle = async () => {
+      try {
+        const response = await axios.get('/api/getTitle'); // API endpoint to fetch the title
+        if (response.data && response.data.title) {
+          setTitle(response.data.title);
+        } else {
+          alert('Failed to load the title.');
+        }
+      } catch (error) {
+        alert('An error occurred while fetching the title.');
+      }
+    };
+
+    fetchTitle();
+  }, []);
 
   // Handler for GIF click
   const handleGifClick = () => {
@@ -22,8 +42,7 @@ function App() {
   // Handler for password submission
   const handlePasswordSubmit = (e) => {
     e.preventDefault();
-    // Access the password from the environment variable
-    const storedPassword = process.env.REACT_APP_PASSWORD; // Make sure the environment variable is set in Vercel
+    const storedPassword = process.env.REACT_APP_PASSWORD; // Ensure the environment variable is set correctly
     if (password === storedPassword) {
       setIsAuthenticated(true);
       setShowPasswordPanel(false);
@@ -36,12 +55,10 @@ function App() {
     <div className="app-container">
       {/* Header Area */}
       <div className="header-area">
-        {/* Mail Logo */}
         <a href="mailto:airesume@gmail.com" className="header-icon left-icon" aria-label="Send Email">
           <img src="/mail.png" alt="Mail Icon" />
         </a>
 
-        {/* Center Content */}
         <div className="header-center">
           <img
             src="/header.gif"
@@ -49,10 +66,9 @@ function App() {
             className="header-gif"
             onClick={handleGifClick}
           />
-          <h1 className="title">{title || 'Loading...'}</h1> 
+          <h1 className="title">{title || 'Loading...'}</h1> {/* Display fetched title */}
         </div>
 
-        {/* LinkedIn Logo */}
         <a
           href="https://www.linkedin.com/in/johnny-appleseed-81a57b26a/"
           target="_blank"
@@ -64,7 +80,6 @@ function App() {
         </a>
       </div>
 
-      {/* Password Panel */}
       {showPasswordPanel && (
         <div className="password-panel">
           <form onSubmit={handlePasswordSubmit}>
@@ -79,11 +94,10 @@ function App() {
         </div>
       )}
 
-      {/* Context Editor */}
       {isAuthenticated ? (
         <ContextEditor />
       ) : (
-        <Chat />
+        <Chat title={title} /> // Passing title to Chat component
       )}
     </div>
   );
