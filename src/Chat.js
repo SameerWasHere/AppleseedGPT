@@ -33,7 +33,7 @@ function Chat() {
     }
   };
 
-  // Fetch the initial message from the database when the component mounts
+  // Fetch the initial message from the database and display it after a delay
   useEffect(() => {
     const fetchInitialMessage = async () => {
       try {
@@ -44,7 +44,13 @@ function Chat() {
             content: response.data.initialMessage,
           };
 
-          setMessages([initialMessage]);
+          // Set a delay before displaying the initial message
+          const timer = setTimeout(() => {
+            setMessages([initialMessage]);
+          }, 2000);
+
+          // Clean up the timer when the component is unmounted
+          return () => clearTimeout(timer);
         } else {
           alert('Failed to load the initial message.');
         }
