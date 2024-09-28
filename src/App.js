@@ -49,7 +49,7 @@ function App() {
             className="header-gif"
             onClick={handleGifClick}
           />
-          <h1 className="title">SameerGPT</h1>
+          <h1 className="title">AppleseedGPT</h1>
         </div>
 
         {/* LinkedIn Logo */}
