@@ -14,6 +14,10 @@ html, body {
   background-color: #ededed;
   color-scheme: light;
   overflow-x: hidden;
+  -webkit-tap-highlight-color: transparent; /* Removes tap highlight on mobile */
+  touch-action: manipulation; /* Improves touch behavior and prevents unintended zoom */
+  -webkit-user-select: none; /* Prevents text selection on Safari */
+  user-select: none; /* Prevents text selection and zoom on double-tap */
 }
 
 /* Main container styling */
@@ -27,6 +31,7 @@ html, body {
   background-color: #ffffff;
   overflow: hidden;
   font-family: Arial, sans-serif;
+  touch-action: manipulation; /* Prevents pinch-to-zoom gesture */
 }
 
 /* Header area styling fixed to the top */
@@ -45,6 +50,8 @@ html, body {
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 101;
+  -webkit-user-select: none; /* Prevents text selection */
+  touch-action: manipulation; /* Disables zoom behavior */
 }
 
 /* Styling for the header icons */
@@ -132,12 +139,12 @@ html, body {
   display: flex;
   align-items: center;
   padding: 10px 20px; /* Adjusted padding */
-  /* Removed max-width and margin to allow full width */
   background-color: rgba(255, 255, 255, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
   z-index: 100;
+  touch-action: manipulation; /* Ensures proper touch interactions */
 }
 
 .input-area input {
@@ -163,43 +170,7 @@ html, body {
   background-color: #0056b3;
 }
 
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  .header-area {
-    height: 130px; /* Adjusted height for smaller screens */
-    padding: 0 15px;
-  }
-
-  .header-gif {
-    width: 70px; /* Adjusted size for smaller screens */
-    height: 70px;
-  }
-
-  .title {
-    font-size: 1.2em;
-  }
-
-  .header-icon {
-    width: 30px;
-    height: 30px;
-  }
-
-  .app-container {
-    padding-top: 140px; /* Adjusted padding-top to match header height */
-    padding-bottom: 60px;
-  }
-
-  .input-area {
-    height: 60px;
-    padding: 10px 15px; /* Adjusted padding for smaller screens */
-  }
-
-  .input-area input,
-  .input-area button {
-    padding: 10px;
-  }
-
-  /* Password Panel Styling */
+/* Password Panel Styling */
 .password-panel {
   position: fixed;
   top: 50%;
@@ -226,6 +197,9 @@ html, body {
 /* Context Editor Styling */
 .context-editor {
   padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .context-editor h2 {
@@ -270,4 +244,40 @@ html, body {
   color: #999;
   margin-top: 10px;
 }
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .header-area {
+    height: 130px;
+    padding: 0 15px;
+  }
+
+  .header-gif {
+    width: 70px;
+    height: 70px;
+  }
+
+  .title {
+    font-size: 1.2em;
+  }
+
+  .header-icon {
+    width: 30px;
+    height: 30px;
+  }
+
+  .app-container {
+    padding-top: 140px;
+    padding-bottom: 60px;
+  }
+
+  .input-area {
+    height: 60px;
+    padding: 10px 15px;
+  }
+
+  .input-area input,
+  .input-area button {
+    padding: 10px;
+  }
 }
