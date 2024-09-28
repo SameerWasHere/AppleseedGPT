@@ -5,7 +5,7 @@ import { kv } from '@vercel/kv'; // Import Vercel KV
 const getContext = async () => {
   try {
     // Fetch the context stored under the key 'sameer_context'
-    const context = await kv.get('sameer_context');
+    const context = await kv.get('appleseed_context');
     return context || 'Default context if none is found'; // Fallback if context is not found
   } catch (error) {
     console.error('Error fetching context from KV:', error);

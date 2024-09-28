@@ -38,7 +38,7 @@ function Chat() {
     const initialMessage = {
       role: 'assistant',
       content:
-        'Hello! I am SameerGPT, ask me anything about Sameer Bhutani to learn about his professional experience, get contact info, and more!',
+        'Hello! I am AppleseedGPT, ask me anything about Johnny Applesed to learn about his professional experience, get contact info, and more!',
     };
 
     const timer = setTimeout(() => {
