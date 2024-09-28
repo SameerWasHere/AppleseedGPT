@@ -8,9 +8,10 @@ function ContextEditor() {
   const [context, setContext] = useState('');
   const [initialMessage, setInitialMessage] = useState('');
   const [email, setEmail] = useState(''); // State to store the email
+  const [link, setLink] = useState(''); // State to store the link
   const [loading, setLoading] = useState(false);
 
-  // Fetch the current title, context, initial message, and email when the component mounts
+  // Fetch the current title, context, initial message, email, and link when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -25,6 +26,9 @@ function ContextEditor() {
 
         const emailResponse = await axios.get('/api/getEmail'); // Fetch the email
         setEmail(emailResponse.data.email);
+
+        const linkResponse = await axios.get('/api/getLink'); // Fetch the link
+        setLink(linkResponse.data.link);
       } catch (error) {
         alert('Failed to fetch data from the database.');
       }
@@ -85,6 +89,19 @@ function ContextEditor() {
     }
   };
 
+  // Handler to update the link in the database
+  const handleUpdateLink = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/updateLink', { link }); // Create this endpoint to update link
+      alert('Link updated successfully.');
+    } catch (error) {
+      alert('Failed to update the link.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="context-editor">
       <div className="form-section">
@@ -134,6 +151,19 @@ function ContextEditor() {
         />
         <button onClick={handleUpdateEmail} disabled={loading}>
           {loading ? 'Updating...' : 'Update Email'}
+        </button>
+      </div>
+
+      <div className="form-section">
+        <h2>Link Editor</h2>
+        <input
+          type="text"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          placeholder="Edit the link..."
+        />
+        <button onClick={handleUpdateLink} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Link'}
         </button>
       </div>
     </div>

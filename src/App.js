@@ -12,8 +12,9 @@ function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [title, setTitle] = useState(''); // State to store the title
   const [email, setEmail] = useState(''); // State to store the email
+  const [link, setLink] = useState(''); // State to store the link
 
-  // Fetch the title and email from the database when the component mounts
+  // Fetch the title, email, and link from the database when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -29,6 +30,13 @@ function App() {
           setEmail(emailResponse.data.email);
         } else {
           alert('Failed to load the email.');
+        }
+
+        const linkResponse = await axios.get('/api/getLink'); // API endpoint to fetch the link
+        if (linkResponse.data && linkResponse.data.link) {
+          setLink(linkResponse.data.link);
+        } else {
+          alert('Failed to load the link.');
         }
       } catch (error) {
         alert('An error occurred while fetching the data.');
@@ -82,7 +90,7 @@ function App() {
         </div>
 
         <a
-          href="https://www.linkedin.com/in/johnny-appleseed-81a57b26a/"
+          href={link || 'https://www.linkedin.com/in/johnny-appleseed-81a57b26a/'} // Use the fetched link or a fallback
           target="_blank"
           rel="noopener noreferrer"
           className="header-icon right-icon"
