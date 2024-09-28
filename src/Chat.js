@@ -33,19 +33,27 @@ function Chat() {
     }
   };
 
-  // Add an initial message when the component mounts with a 2-second delay
+  // Fetch the initial message from the database when the component mounts
   useEffect(() => {
-    const initialMessage = {
-      role: 'assistant',
-      content:
-        'Hello! I am AppleseedGPT, ask me anything about Johnny Applesed to learn about his professional experience, get contact info, and more!',
+    const fetchInitialMessage = async () => {
+      try {
+        const response = await axios.get('/api/getInitialMessage'); // API endpoint to fetch the initial message
+        if (response.data && response.data.initialMessage) {
+          const initialMessage = {
+            role: 'assistant',
+            content: response.data.initialMessage,
+          };
+
+          setMessages([initialMessage]);
+        } else {
+          alert('Failed to load the initial message.');
+        }
+      } catch (error) {
+        alert('An error occurred while fetching the initial message.');
+      }
     };
 
-    const timer = setTimeout(() => {
-      setMessages([initialMessage]);
-    }, 2000);
-
-    return () => clearTimeout(timer);
+    fetchInitialMessage();
   }, []);
 
   // Auto-scroll to the latest message when messages update
