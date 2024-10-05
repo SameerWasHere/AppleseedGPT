@@ -19,7 +19,7 @@ function ContextEditor() {
         const titleResponse = await axios.get('/api/getTitle');
         setTitle(titleResponse.data.title);
 
-        const contextResponse = await axios.get('/api/getContext');
+        const contextResponse = await axios.get('/api/context'); // Use consolidated endpoint for context
         setContext(contextResponse.data.context);
 
         const messageResponse = await axios.get('/api/getInitialMessage');
@@ -58,7 +58,7 @@ function ContextEditor() {
   const handleUpdateContext = async () => {
     try {
       setLoading(true);
-      await axios.post('/api/updateContext', { context }); // Create this endpoint to update context
+      await axios.post('/api/context', { context }); // Use consolidated endpoint for context update
       alert('Context updated successfully.');
     } catch (error) {
       alert('Failed to update context.');
@@ -201,3 +201,4 @@ function ContextEditor() {
 }
 
 export default ContextEditor;
+
