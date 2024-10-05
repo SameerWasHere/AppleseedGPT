@@ -13,8 +13,9 @@ function App() {
   const [title, setTitle] = useState(''); // State to store the title
   const [email, setEmail] = useState(''); // State to store the email
   const [link, setLink] = useState(''); // State to store the link
+  const [headerImageUrl, setHeaderImageUrl] = useState(''); // State to store the header image URL
 
-  // Fetch the title, email, and link from the database when the component mounts
+  // Fetch the title, email, link, and header image URL from the database when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -37,6 +38,14 @@ function App() {
           setLink(linkResponse.data.link);
         } else {
           alert('Failed to load the link.');
+        }
+
+        // Fetch header image URL from the database
+        const headerImageResponse = await axios.get('/api/getHeaderImage'); // Update the endpoint as needed
+        if (headerImageResponse.data && headerImageResponse.data.appleseed_headerImage) {
+          setHeaderImageUrl(headerImageResponse.data.appleseed_headerImage);
+        } else {
+          alert('Failed to load the header image.');
         }
       } catch (error) {
         alert('An error occurred while fetching the data.');
@@ -67,9 +76,6 @@ function App() {
     }
   };
 
-  // Google Drive direct link to the header GIF
-  const headerGifLink = 'https://drive.google.com/uc?export=view&id=1RZ3UtNkK2Zw94UfxXGrZ96iRg7n2LQk4';
-
   return (
     <div className="app-container">
       {/* Header Area */}
@@ -84,7 +90,7 @@ function App() {
 
         <div className="header-center">
           <img
-            src={headerGifLink}
+            src={headerImageUrl || '/header.gif'} // Use the fetched header image URL or a fallback
             alt="Header GIF"
             className="header-gif"
             onClick={handleGifClick}
