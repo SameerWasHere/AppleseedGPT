@@ -67,6 +67,9 @@ function App() {
     }
   };
 
+  // Google Drive direct link to the header GIF
+  const headerGifLink = 'https://drive.google.com/uc?export=view&id=1RZ3UtNkK2Zw94UfxXGrZ96iRg7n2LQk4';
+
   return (
     <div className="app-container">
       {/* Header Area */}
@@ -81,7 +84,7 @@ function App() {
 
         <div className="header-center">
           <img
-            src="/header.gif"
+            src={headerGifLink}
             alt="Header GIF"
             className="header-gif"
             onClick={handleGifClick}
