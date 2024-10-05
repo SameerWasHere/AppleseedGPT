@@ -54,7 +54,57 @@ function ContextEditor() {
     }
   };
 
-  // Other update handlers (context, initial message, email, link)...
+  // Handler to update the context in the database
+  const handleUpdateContext = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/updateContext', { context }); // Create this endpoint to update context
+      alert('Context updated successfully.');
+    } catch (error) {
+      alert('Failed to update context.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handler to update the initial message in the database
+  const handleUpdateInitialMessage = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/updateInitialMessage', { initialMessage }); // Create this endpoint to update initial message
+      alert('Initial message updated successfully.');
+    } catch (error) {
+      alert('Failed to update the initial message.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handler to update the email in the database
+  const handleUpdateEmail = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/updateEmail', { email }); // Create this endpoint to update email
+      alert('Email updated successfully.');
+    } catch (error) {
+      alert('Failed to update the email.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Handler to update the link in the database
+  const handleUpdateLink = async () => {
+    try {
+      setLoading(true);
+      await axios.post('/api/updateLink', { link }); // Create this endpoint to update link
+      alert('Link updated successfully.');
+    } catch (error) {
+      alert('Failed to update the link.');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Handler to update the header image URL in the database
   const handleUpdateHeaderImage = async () => {
