@@ -92,7 +92,6 @@ function App() {
         {publicLink && (
           <div className="public-link-container">
             <div className="public-link">
-              <p>Your Public Chatbot Link:</p>
               <a href={publicLink} target="_blank" rel="noopener noreferrer">
                 {publicLink}
               </a>
