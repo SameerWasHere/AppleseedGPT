@@ -57,10 +57,11 @@ html, body {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-direction: row; /* Align elements in a row */
 }
 
 /* Styling for the welcome text */
-.header-area .welcome-text {
+.header-top .welcome-text {
   font-size: 0.9em;
   margin: 0;
   text-align: left;
@@ -68,7 +69,7 @@ html, body {
 }
 
 /* Styling for the sign-out button */
-.sign-out-button {
+.header-top .sign-out-button {
   padding: 3px 8px;
   background-color: #ff4b4b; /* A red color for logout to make it more noticeable */
   color: #fff;
@@ -79,7 +80,7 @@ html, body {
   transition: background-color 0.3s;
 }
 
-.sign-out-button:hover {
+.header-top .sign-out-button:hover {
   background-color: #d43f3f; /* Darker red for hover effect */
 }
 
@@ -142,7 +143,7 @@ html, body {
     padding: 0 15px;
   }
 
-  .sign-out-button {
+  .header-top .sign-out-button {
     padding: 3px 8px;
     font-size: 0.8em;
   }
