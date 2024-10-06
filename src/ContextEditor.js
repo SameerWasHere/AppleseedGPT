@@ -57,6 +57,26 @@ function ContextEditor() {
     fetchData('headerImage', setHeaderImageUrl);
   }, []);
 
+  // Fetch the public link for the chatbot when the component mounts
+  useEffect(() => {
+    const fetchPublicLink = async () => {
+      try {
+        const emailPrefix = getUserEmailPrefix();
+        if (!emailPrefix) {
+          return;
+        }
+        const response = await axios.get(`/api/settings?key=public_link&emailPrefix=${emailPrefix}`);
+        if (response.data && response.data.public_link) {
+          setLink(`/chat/${response.data.public_link}`);
+        }
+      } catch (error) {
+        console.error('Failed to fetch public link:', error);
+      }
+    };
+
+    fetchPublicLink();
+  }, []);
+
   // Generic handler to update any value in the database
   const handleUpdate = async (key, value) => {
     try {
