@@ -44,7 +44,7 @@ function Chat({ username, title, initialMessage }) {
     try {
       // Send updated messages along with user context to the backend
       const response = await axios.post('/api/chat', {
-        context: userContext,
+        username, // Pass the username to the API
         messages: updatedMessages,
       });
 
@@ -122,4 +122,3 @@ function Chat({ username, title, initialMessage }) {
 }
 
 export default Chat;
-

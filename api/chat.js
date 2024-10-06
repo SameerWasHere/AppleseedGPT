@@ -1,7 +1,6 @@
 // chat.js (API file updated to fetch user-specific context from KV store)
 import axios from 'axios';
 import { kv } from '@vercel/kv'; // Import Vercel KV
-import { useParams } from 'react-router-dom';
 
 // Function to get the context from Vercel KV for a specific user
 const getContext = async (username) => {

@@ -110,7 +110,7 @@ function PublicChat() {
           </a>
         )}
       </div>
-      <Chat title={title} initialMessage={initialMessage} />
+      <Chat username={username} title={title} initialMessage={initialMessage} />
     </div>
   );
 }
