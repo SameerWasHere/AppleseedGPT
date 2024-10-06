@@ -4,6 +4,9 @@ import axios from 'axios';
 import Chat from './Chat.js';
 import './App.css';
 import ContextEditor from './ContextEditor.js'; // Ensure the path is correct
+import { auth } from './firebase.js';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import Login from './Login.js';
 
 function App() {
   const [clickCount, setClickCount] = useState(0);
@@ -15,6 +18,15 @@ function App() {
   const [link, setLink] = useState(''); // State to store the link
   const [headerImageUrl, setHeaderImageUrl] = useState(''); // State to store the header image URL
   const [initialMessage, setInitialMessage] = useState(''); // State to store the initial message
+  const [user, setUser] = useState(null); // State to store logged-in user
+
+  // Listen for user state changes
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+    });
+    return () => unsubscribe();
+  }, []);
 
   // Fetch the title, email, link, header image URL, and initial message from the database when the component mounts
   useEffect(() => {
@@ -64,6 +76,20 @@ function App() {
     }
   };
 
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        setUser(null);
+      })
+      .catch((error) => {
+        console.error('Error signing out:', error);
+      });
+  };
+
+  if (!user) {
+    return <Login setUser={setUser} />;
+  }
+
   return (
     <div className="app-container">
       {/* Header Area */}
@@ -96,6 +122,11 @@ function App() {
           <img src="/linkedin.png" alt="LinkedIn Icon" />
         </a>
       </div>
+
+      <header>
+        <h2>Welcome, {user.displayName}</h2>
+        <button onClick={handleSignOut}>Sign Out</button>
+      </header>
 
       {showPasswordPanel && (
         <div className="password-panel">
