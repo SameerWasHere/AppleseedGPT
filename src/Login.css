@@ -25,12 +25,13 @@
   padding: 40px 20px;
   box-sizing: border-box;
   background-color: #333;
+  position: relative;
 }
 
 .top-panel .brand-logo {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: auto;
+  margin-top: 20px;
 }
 
 .top-panel h1 {
@@ -42,8 +43,8 @@
 
 .top-panel .scroll-down {
   font-size: 1.2rem;
-  margin-top: auto;
-  padding-bottom: 20px;
+  position: absolute;
+  bottom: 20px;
 }
 
 /* Header section styling */
@@ -148,5 +149,10 @@
   .signin-button {
     font-size: 1rem;
     padding: 12px 20px;
+  }
+
+  .top-panel .scroll-down {
+    font-size: 1rem;
+    bottom: 10px;
   }
 }
