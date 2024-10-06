@@ -38,10 +38,9 @@ html, body {
   top: 0;
   left: 0;
   right: 0;
-  height: 150px; /* Increased height to accommodate larger GIF */
+  height: 100px; /* Adjusted height */
   display: flex;
   flex-direction: column;
-  align-items: center; /* Center items vertically */
   padding: 10px 20px; /* Horizontal padding */
   background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque background */
   backdrop-filter: blur(10px);
@@ -62,19 +61,21 @@ html, body {
 
 /* Styling for the welcome text */
 .header-area .welcome-text {
-  font-size: 1em;
+  font-size: 0.9em;
   margin: 0;
   text-align: left;
+  color: #333;
 }
 
 /* Styling for the sign-out button */
 .sign-out-button {
-  padding: 5px 10px;
+  padding: 3px 8px;
   background-color: #ff4b4b; /* A red color for logout to make it more noticeable */
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  font-size: 0.9em;
   transition: background-color 0.3s;
 }
 
@@ -137,12 +138,12 @@ html, body {
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .header-area {
-    height: 130px;
+    height: 90px;
     padding: 0 15px;
   }
 
   .sign-out-button {
-    padding: 5px 10px;
+    padding: 3px 8px;
     font-size: 0.8em;
   }
 
