@@ -3,10 +3,10 @@ import { kv } from '@vercel/kv';
 import { getAuth } from 'firebase-admin/auth';
 import { initializeApp, cert } from 'firebase-admin/app';
 import { v4 as uuidv4 } from 'uuid';
-import serviceAccount from './path/to/serviceAccountKey.json'; // Add your service account key path
 
-// Initialize Firebase Admin
+// Initialize Firebase Admin using environment variables
 try {
+  const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_CREDENTIALS);
   initializeApp({
     credential: cert(serviceAccount),
   });
