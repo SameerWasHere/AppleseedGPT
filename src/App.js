@@ -85,15 +85,19 @@ function App() {
   return (
     <div className="app-container">
       <header className="header-area">
-        <h2>Welcome, {user.displayName}</h2>
-        <button className="sign-out-button" onClick={handleSignOut}>Sign Out</button>
+        <div className="header-top">
+          <h2 className="welcome-text">Welcome, {user.displayName}</h2>
+          <button className="sign-out-button" onClick={handleSignOut}>Sign Out</button>
+        </div>
         {publicLink && (
-          <div className="public-link">
-            <p>Your Public Chatbot Link:</p>
-            <a href={publicLink} target="_blank" rel="noopener noreferrer">
-              {publicLink}
-            </a>
-            <button className="copy-button" onClick={copyToClipboard}>Copy Link</button>
+          <div className="public-link-container">
+            <div className="public-link">
+              <p>Your Public Chatbot Link:</p>
+              <a href={publicLink} target="_blank" rel="noopener noreferrer">
+                {publicLink}
+              </a>
+              <button className="copy-button" onClick={copyToClipboard}>Copy Link</button>
+            </div>
           </div>
         )}
       </header>
