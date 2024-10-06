@@ -11,6 +11,7 @@ function ContextEditor() {
   const [email, setEmail] = useState('');
   const [link, setLink] = useState('');
   const [headerImageUrl, setHeaderImageUrl] = useState('');
+  const [publicLink, setPublicLink] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Fetch the current data when the component mounts
@@ -59,6 +60,23 @@ function ContextEditor() {
     }
   };
 
+  // Handler to generate the public link
+  const handleGeneratePublicLink = async () => {
+    try {
+      if (!auth.currentUser) return;
+      const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
+
+      const response = await axios.put('/api/settings', {}, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
+      setPublicLink(response.data.publicLink);
+    } catch (error) {
+      alert('Failed to generate public link.');
+    }
+  };
+
   return (
     <div className="context-editor">
       <div className="form-section">
@@ -79,7 +97,7 @@ function ContextEditor() {
         <textarea
           value={context}
           onChange={(e) => setContext(e.target.value)}
-          placeholder="Edit the AppleseedGPT context..."
+          placeholder="Edit the context..."
         />
         <button onClick={() => handleUpdate('context', context)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Context'}
@@ -135,6 +153,21 @@ function ContextEditor() {
         <button onClick={() => handleUpdate('headerImage', headerImageUrl)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Header Image URL'}
         </button>
+      </div>
+
+      <div className="form-section">
+        <h2>Generate Public Link</h2>
+        <button onClick={handleGeneratePublicLink} disabled={loading}>
+          {loading ? 'Generating...' : 'Generate Public Link'}
+        </button>
+        {publicLink && (
+          <div className="public-link">
+            <p>Your Public Chatbot Link:</p>
+            <a href={`/${publicLink}`} target="_blank" rel="noopener noreferrer">
+              {`${window.location.origin}/${publicLink}`}
+            </a>
+          </div>
+        )}
       </div>
     </div>
   );

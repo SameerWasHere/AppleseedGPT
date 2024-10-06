@@ -1,7 +1,8 @@
-// api/settings.js
+// api/settings.js (Backend changes)
 import { kv } from '@vercel/kv';
 import { getAuth } from 'firebase-admin/auth';
 import { initializeApp } from 'firebase-admin/app';
+import { v4 as uuidv4 } from 'uuid';
 
 // Initialize Firebase Admin
 initializeApp();
@@ -39,8 +40,19 @@ export default async function handler(req, res) {
 
       await kv.set(`${userId}_${key}`, value);
       res.status(200).json({ message: 'Value updated successfully.' });
+    } else if (req.method === 'PUT') {
+      // Generate a unique link for the user if it doesn't exist
+      const publicLinkKey = `${userId}_public_link`;
+      let publicLink = await kv.get(publicLinkKey);
+
+      if (!publicLink) {
+        publicLink = `chat/${uuidv4()}`;
+        await kv.set(publicLinkKey, publicLink);
+      }
+
+      res.status(200).json({ publicLink });
     } else {
-      res.setHeader('Allow', ['GET', 'POST']);
+      res.setHeader('Allow', ['GET', 'POST', 'PUT']);
       res.status(405).json({ error: `Method ${req.method} not allowed.` });
     }
   } catch (error) {
