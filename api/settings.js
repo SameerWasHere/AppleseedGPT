@@ -1,17 +1,21 @@
 // api/settings.js (Backend changes)
 import { kv } from '@vercel/kv';
 import { getAuth } from 'firebase-admin/auth';
-import { initializeApp, applicationDefault } from 'firebase-admin/app';
+import { initializeApp, cert } from 'firebase-admin/app';
 import { v4 as uuidv4 } from 'uuid';
+import serviceAccount from './path/to/serviceAccountKey.json'; // Add your service account key path
 
 // Initialize Firebase Admin
 try {
   initializeApp({
-    credential: applicationDefault(),
+    credential: cert(serviceAccount),
   });
+  console.log('Firebase Admin initialized successfully');
 } catch (error) {
   if (!/already exists/u.test(error.message)) {
     console.error('Firebase initialization error:', error);
+  } else {
+    console.log('Firebase Admin already initialized.');
   }
 }
 
@@ -26,10 +30,12 @@ export default async function handler(req, res) {
     const idToken = authHeader.split(' ')[1];
     let decodedToken;
     try {
+      console.log('Verifying ID token');
       decodedToken = await getAuth().verifyIdToken(idToken);
+      console.log('ID token verified successfully');
     } catch (error) {
       console.error('Failed to verify ID token:', error);
-      return res.status(401).json({ error: 'Invalid or expired ID token.' });
+      return res.status(401).json({ error: 'Invalid or expired ID token.', details: error.message });
     }
 
     const userId = decodedToken.uid;
@@ -53,7 +59,7 @@ export default async function handler(req, res) {
         }
       } catch (error) {
         console.error('Error fetching data from KV store:', error);
-        return res.status(500).json({ error: 'Failed to fetch data from KV store.' });
+        return res.status(500).json({ error: 'Failed to fetch data from KV store.', details: error.message });
       }
     } else if (req.method === 'POST') {
       const { key, value } = req.body;
@@ -69,7 +75,7 @@ export default async function handler(req, res) {
         res.status(200).json({ message: 'Value updated successfully.' });
       } catch (error) {
         console.error('Error updating KV store:', error);
-        return res.status(500).json({ error: 'Failed to update KV store.' });
+        return res.status(500).json({ error: 'Failed to update KV store.', details: error.message });
       }
     } else if (req.method === 'PUT') {
       // Generate a unique link for the user if it doesn't exist
@@ -80,13 +86,16 @@ export default async function handler(req, res) {
 
         if (!publicLink) {
           publicLink = `chat/${uuidv4()}`;
+          console.log(`Generated new public link: ${publicLink}`);
           await kv.set(publicLinkKey, publicLink);
+        } else {
+          console.log(`Existing public link found: ${publicLink}`);
         }
 
         res.status(200).json({ publicLink });
       } catch (error) {
         console.error('Error generating or saving public link:', error);
-        return res.status(500).json({ error: 'Failed to generate or save public link.' });
+        return res.status(500).json({ error: 'Failed to generate or save public link.', details: error.message });
       }
     } else {
       res.setHeader('Allow', ['GET', 'POST', 'PUT']);
@@ -97,4 +106,3 @@ export default async function handler(req, res) {
     res.status(500).json({ error: 'An error occurred while processing the request.', details: error.message });
   }
 }
-
