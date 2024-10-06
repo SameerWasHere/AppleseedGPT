@@ -33,6 +33,9 @@ function ContextEditor() {
         setter(response.data[key]);
       } catch (error) {
         console.error(`Failed to fetch ${key}:`, error);
+        if (error.response) {
+          console.error('Error response from server:', error.response.data);
+        }
         alert(`Failed to fetch ${key}: ${error.response?.data?.error || error.message}`);
       }
     };
@@ -56,6 +59,9 @@ function ContextEditor() {
       const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
       console.log(`Attempting to update ${key} with value:`, value);
+      console.log('Sending request to /api/settings with headers:', {
+        Authorization: `Bearer ${idToken}`,
+      });
       await axios.post('/api/settings', { key, value }, {
         headers: {
           Authorization: `Bearer ${idToken}`,
@@ -64,6 +70,9 @@ function ContextEditor() {
       alert(`${key} updated successfully.`);
     } catch (error) {
       console.error(`Failed to update ${key}:`, error); // Log the error for debugging
+      if (error.response) {
+        console.error('Error response from server:', error.response.data);
+      }
       alert(`Failed to update ${key}: ${error.response?.data?.error || error.message}`);
     } finally {
       setLoading(false);
@@ -80,6 +89,9 @@ function ContextEditor() {
       const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
       console.log('Generating public link');
+      console.log('Sending request to /api/settings (PUT) with headers:', {
+        Authorization: `Bearer ${idToken}`,
+      });
       const response = await axios.put('/api/settings', {}, {
         headers: {
           Authorization: `Bearer ${idToken}`,
@@ -88,6 +100,9 @@ function ContextEditor() {
       setPublicLink(response.data.publicLink);
     } catch (error) {
       console.error('Error generating public link:', error); // Log the error for debugging
+      if (error.response) {
+        console.error('Error response from server:', error.response.data);
+      }
       alert(`Failed to generate public link: ${error.response?.data?.error || error.message}`);
     }
   };
