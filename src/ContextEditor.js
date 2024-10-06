@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './ContextEditor.css';
+import { auth } from './firebase.js';
 
 function ContextEditor() {
   const [title, setTitle] = useState('');
@@ -16,26 +17,40 @@ function ContextEditor() {
   useEffect(() => {
     const fetchData = async (key, setter) => {
       try {
-        const response = await axios.get(`/api/settings?key=${key}`);
+        if (!auth.currentUser) return;
+        const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
+
+        const response = await axios.get(`/api/settings?key=${key}`, {
+          headers: {
+            Authorization: `Bearer ${idToken}`,
+          },
+        });
         setter(response.data[key]);
       } catch (error) {
         console.error(`Failed to fetch ${key}:`, error);
       }
     };
 
-    fetchData('appleseed_title', setTitle);
-    fetchData('appleseed_context', setContext);
-    fetchData('appleseed_initial_message', setInitialMessage);
-    fetchData('appleseed_email', setEmail);
-    fetchData('appleseed_link', setLink);
-    fetchData('appleseed_headerImage', setHeaderImageUrl);
+    fetchData('title', setTitle);
+    fetchData('context', setContext);
+    fetchData('initial_message', setInitialMessage);
+    fetchData('email', setEmail);
+    fetchData('link', setLink);
+    fetchData('headerImage', setHeaderImageUrl);
   }, []);
 
   // Generic handler to update any value in the database
   const handleUpdate = async (key, value) => {
     try {
       setLoading(true);
-      await axios.post('/api/settings', { key, value });
+      if (!auth.currentUser) return;
+      const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
+
+      await axios.post('/api/settings', { key, value }, {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      });
       alert(`${key} updated successfully.`);
     } catch (error) {
       alert(`Failed to update ${key}.`);
@@ -54,7 +69,7 @@ function ContextEditor() {
           onChange={(e) => setTitle(e.target.value)}
           placeholder="Edit the title..."
         />
-        <button onClick={() => handleUpdate('appleseed_title', title)} disabled={loading}>
+        <button onClick={() => handleUpdate('title', title)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Title'}
         </button>
       </div>
@@ -66,7 +81,7 @@ function ContextEditor() {
           onChange={(e) => setContext(e.target.value)}
           placeholder="Edit the AppleseedGPT context..."
         />
-        <button onClick={() => handleUpdate('appleseed_context', context)} disabled={loading}>
+        <button onClick={() => handleUpdate('context', context)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Context'}
         </button>
       </div>
@@ -78,7 +93,7 @@ function ContextEditor() {
           onChange={(e) => setInitialMessage(e.target.value)}
           placeholder="Edit the initial message..."
         />
-        <button onClick={() => handleUpdate('appleseed_initial_message', initialMessage)} disabled={loading}>
+        <button onClick={() => handleUpdate('initial_message', initialMessage)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Initial Message'}
         </button>
       </div>
@@ -91,7 +106,7 @@ function ContextEditor() {
           onChange={(e) => setEmail(e.target.value)}
           placeholder="Edit the email..."
         />
-        <button onClick={() => handleUpdate('appleseed_email', email)} disabled={loading}>
+        <button onClick={() => handleUpdate('email', email)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Email'}
         </button>
       </div>
@@ -104,7 +119,7 @@ function ContextEditor() {
           onChange={(e) => setLink(e.target.value)}
           placeholder="Edit the link..."
         />
-        <button onClick={() => handleUpdate('appleseed_link', link)} disabled={loading}>
+        <button onClick={() => handleUpdate('link', link)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Link'}
         </button>
       </div>
@@ -117,7 +132,7 @@ function ContextEditor() {
           onChange={(e) => setHeaderImageUrl(e.target.value)}
           placeholder="Edit the Header Image URL..."
         />
-        <button onClick={() => handleUpdate('appleseed_headerImage', headerImageUrl)} disabled={loading}>
+        <button onClick={() => handleUpdate('headerImage', headerImageUrl)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Header Image URL'}
         </button>
       </div>

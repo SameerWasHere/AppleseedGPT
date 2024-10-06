@@ -32,9 +32,16 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        if (!auth.currentUser) return;
+        const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
+
         // Use consolidated settings API to get each value
         const fetchSetting = async (key, setter) => {
-          const response = await axios.get(`/api/settings?key=${key}`);
+          const response = await axios.get(`/api/settings?key=${key}`, {
+            headers: {
+              Authorization: `Bearer ${idToken}`,
+            },
+          });
           if (response.data && response.data[key] !== undefined) {
             setter(response.data[key]);
           } else {
@@ -42,18 +49,18 @@ function App() {
           }
         };
 
-        await fetchSetting('appleseed_title', setTitle);
-        await fetchSetting('appleseed_email', setEmail);
-        await fetchSetting('appleseed_link', setLink);
-        await fetchSetting('appleseed_headerImage', setHeaderImageUrl);
-        await fetchSetting('appleseed_initial_message', setInitialMessage);
+        await fetchSetting('title', setTitle);
+        await fetchSetting('email', setEmail);
+        await fetchSetting('link', setLink);
+        await fetchSetting('headerImage', setHeaderImageUrl);
+        await fetchSetting('initial_message', setInitialMessage);
       } catch (error) {
         console.error('An error occurred while fetching the data:', error);
       }
     };
 
     fetchData();
-  }, []);
+  }, [user]);
 
   // Handler for GIF click
   const handleGifClick = () => {
@@ -152,3 +159,4 @@ function App() {
 }
 
 export default App;
+
