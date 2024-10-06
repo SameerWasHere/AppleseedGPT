@@ -1,4 +1,4 @@
-// Login.js (Updated for sales-oriented page)
+// Login.js (Updated for sales-oriented page with top panel)
 import React from 'react';
 import { signInWithGoogle } from './firebase.js';
 import './Login.css';
@@ -16,10 +16,17 @@ function Login({ setUser }) {
 
   return (
     <div className="login-container">
+      {/* Top Panel Section */}
+      <div className="top-panel">
+        <div className="brand-logo">PersonalGPT</div>
+        <h1>Create Your Own Personal Chatbot</h1>
+        <div className="scroll-down">scroll down</div>
+      </div>
+
       {/* Header Section */}
       <header className="header-section">
         <h1>Create Your Own Personal Chatbot</h1>
-        <p>Imagine having a chatbot that represents you - answering questions, sharing your thoughts, and reflecting your personality. With our platform, you can create a personalized chatbot version of yourself and share it with the world!</p>
+        <p></p>
         <button onClick={handleLogin} className="signin-button">Sign in with Google to Get Started</button>
       </header>
 
