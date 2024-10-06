@@ -1,5 +1,4 @@
-// Login.js (Updated for sales-oriented page with top panel)
-import React from 'react';
+import React, { useEffect } from 'react';
 import { signInWithGoogle } from './firebase.js';
 import './Login.css';
 
@@ -14,13 +13,27 @@ function Login({ setUser }) {
     }
   };
 
+  useEffect(() => {
+    // Adjust height of the top-panel to fix mobile viewport issue
+    const setViewportHeight = () => {
+      const vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    };
+    setViewportHeight();
+    window.addEventListener('resize', setViewportHeight);
+
+    return () => {
+      window.removeEventListener('resize', setViewportHeight);
+    };
+  }, []);
+
   return (
     <div className="login-container">
       {/* Top Panel Section */}
-      <div className="top-panel">
+      <div className="top-panel" style={{ height: 'calc(var(--vh, 1vh) * 100)' }}>
         <div className="brand-logo">PersonalGPT</div>
         <h1>Create Your Own Personal Chatbot</h1>
-        <div className="scroll-down">Scroll down to get started</div>
+        <div className="scroll-down">scroll down</div>
       </div>
 
       {/* Step-by-Step Explanation Section */}
