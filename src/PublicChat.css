@@ -1,0 +1,58 @@
+/* PublicChat.css */
+
+/* General styling for public chat container */
+.public-chat-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Header Area Styling */
+  .header-area {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Icon Styling */
+  .header-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  
+  /* Header Center Content Styling */
+  .header-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .header-gif {
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 5px;
+  }
+  
+  .title {
+    margin: 0;
+    font-size: 1.5em;
+    line-height: 1;
+  }
+  

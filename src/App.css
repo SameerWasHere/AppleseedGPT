@@ -32,6 +32,18 @@ html, body {
   touch-action: manipulation; /* Prevents pinch-to-zoom gesture */
 }
 
+/* Public Chat Container Styling */
+.public-chat-container {
+  padding-top: 150px; /* Match padding with the app container for consistent header spacing */
+  padding-bottom: 70px; /* Reserve space for input */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
 /* Header area styling fixed to the top */
 .header-area {
   position: fixed;
