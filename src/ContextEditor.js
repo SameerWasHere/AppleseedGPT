@@ -18,9 +18,13 @@ function ContextEditor() {
   useEffect(() => {
     const fetchData = async (key, setter) => {
       try {
-        if (!auth.currentUser) return;
+        if (!auth.currentUser) {
+          console.error('No current user found for fetch');
+          return;
+        }
         const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
+        console.log(`Fetching data for key: ${key}`);
         const response = await axios.get(`/api/settings?key=${key}`, {
           headers: {
             Authorization: `Bearer ${idToken}`,
@@ -29,6 +33,7 @@ function ContextEditor() {
         setter(response.data[key]);
       } catch (error) {
         console.error(`Failed to fetch ${key}:`, error);
+        alert(`Failed to fetch ${key}: ${error.response?.data?.error || error.message}`);
       }
     };
 
@@ -44,9 +49,13 @@ function ContextEditor() {
   const handleUpdate = async (key, value) => {
     try {
       setLoading(true);
-      if (!auth.currentUser) return;
+      if (!auth.currentUser) {
+        console.error('No current user found for update');
+        return;
+      }
       const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
+      console.log(`Attempting to update ${key} with value:`, value);
       await axios.post('/api/settings', { key, value }, {
         headers: {
           Authorization: `Bearer ${idToken}`,
@@ -64,9 +73,13 @@ function ContextEditor() {
   // Handler to generate the public link
   const handleGeneratePublicLink = async () => {
     try {
-      if (!auth.currentUser) return;
+      if (!auth.currentUser) {
+        console.error('No current user found for generating public link');
+        return;
+      }
       const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
+      console.log('Generating public link');
       const response = await axios.put('/api/settings', {}, {
         headers: {
           Authorization: `Bearer ${idToken}`,
@@ -176,4 +189,3 @@ function ContextEditor() {
 }
 
 export default ContextEditor;
-
