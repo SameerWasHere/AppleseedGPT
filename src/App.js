@@ -14,8 +14,9 @@ function App() {
   const [email, setEmail] = useState(''); // State to store the email
   const [link, setLink] = useState(''); // State to store the link
   const [headerImageUrl, setHeaderImageUrl] = useState(''); // State to store the header image URL
+  const [initialMessage, setInitialMessage] = useState(''); // State to store the initial message
 
-  // Fetch the title, email, link, and header image URL from the database when the component mounts
+  // Fetch the title, email, link, header image URL, and initial message from the database when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,6 +34,7 @@ function App() {
         await fetchSetting('appleseed_email', setEmail);
         await fetchSetting('appleseed_link', setLink);
         await fetchSetting('appleseed_headerImage', setHeaderImageUrl);
+        await fetchSetting('appleseed_initial_message', setInitialMessage);
       } catch (error) {
         console.error('An error occurred while fetching the data:', error);
       }
@@ -112,7 +114,7 @@ function App() {
       {isAuthenticated ? (
         <ContextEditor />
       ) : (
-        <Chat title={title} />
+        <Chat title={title} initialMessage={initialMessage} />
       )}
     </div>
   );
