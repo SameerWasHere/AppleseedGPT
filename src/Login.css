@@ -17,34 +17,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   height: 100vh;
   width: 100%;
   color: #fff;
   text-align: center;
-  padding: 10vh 20px 10vh; /* Adjusted padding for better mobile fit */
+  padding: 20px;
   box-sizing: border-box;
   background-color: #333;
   position: relative;
-  overflow: hidden;
 }
 
 .top-panel .brand-logo {
   font-size: 2rem;
   font-weight: bold;
-  margin-top: 0;
+  margin-bottom: 20px;
 }
 
 .top-panel h1 {
   font-size: 2.5rem;
   font-weight: bold;
-  margin: 0;
+  margin-bottom: 40px;
 }
 
 .top-panel .scroll-down {
   font-size: 1.2rem;
-  position: absolute;
-  bottom: 5vh;
+  margin-top: 40px;
 }
 
 /* Header section styling */
@@ -134,7 +132,7 @@
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .top-panel {
-    padding: 5vh 20px; /* Reduce padding for better fit on mobile */
+    padding: 20px; /* Adjust padding for better fit on mobile */
   }
 
   .top-panel h1 {
@@ -157,6 +155,6 @@
 
   .top-panel .scroll-down {
     font-size: 1rem;
-    bottom: 5vh;
+    margin-top: 20px;
   }
 }

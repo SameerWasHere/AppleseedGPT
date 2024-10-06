@@ -20,7 +20,7 @@ function Login({ setUser }) {
       <div className="top-panel">
         <div className="brand-logo">PersonalGPT</div>
         <h1>Create Your Own Personal Chatbot</h1>
-        <div className="scroll-down">scroll down</div>
+        <div className="scroll-down">Scroll down to get started</div>
       </div>
 
       {/* Step-by-Step Explanation Section */}
