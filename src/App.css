@@ -38,7 +38,7 @@ html, body {
   top: 0;
   left: 0;
   right: 0;
-  height: 100px; /* Adjusted height */
+  height: 150px; /* Adjusted height to fit new content layout */
   display: flex;
   flex-direction: column;
   padding: 10px 20px; /* Horizontal padding */
@@ -94,15 +94,15 @@ html, body {
   text-align: center;
 }
 
+.public-link-container p {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
 .public-link {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-}
-
-.public-link p {
-  margin: 0;
-  font-weight: bold;
 }
 
 .public-link a {
@@ -139,7 +139,7 @@ html, body {
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .header-area {
-    height: 90px;
+    height: 130px;
     padding: 0 15px;
   }
 
