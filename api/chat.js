@@ -1,11 +1,17 @@
+// chat.js (API file updated to fetch user-specific context from KV store)
 import axios from 'axios';
 import { kv } from '@vercel/kv'; // Import Vercel KV
+import { useParams } from 'react-router-dom';
 
-// Function to get the context from Vercel KV
-const getContext = async () => {
+// Function to get the context from Vercel KV for a specific user
+const getContext = async (username) => {
   try {
-    // Fetch the context stored under the key 'sameer_context'
-    const context = await kv.get('appleseed_context');
+    if (!username) {
+      throw new Error('Username is required to fetch the context.');
+    }
+    // Fetch the context stored under the key for the specific user
+    const contextKey = `${username}_context`;
+    const context = await kv.get(contextKey);
     return context || 'Default context if none is found'; // Fallback if context is not found
   } catch (error) {
     console.error('Error fetching context from KV:', error);
@@ -25,7 +31,13 @@ export default async function handler(req, res) {
 
   if (req.method === 'POST') {
     try {
-      const { messages } = req.body;
+      const { messages, username } = req.body;
+
+      if (!username) {
+        console.error('Username is missing in request.');
+        res.status(400).json({ error: 'Username is missing.' });
+        return;
+      }
 
       // Check if API key is present
       const apiKey = process.env.OPENAI_API_KEY;
@@ -35,8 +47,8 @@ export default async function handler(req, res) {
         return;
       }
 
-      // Fetch context from KV
-      const context = await getContext();
+      // Fetch context from KV for the specific user
+      const context = await getContext(username);
 
       // Append context as the first system message
       const fullMessages = [
@@ -80,4 +92,4 @@ export default async function handler(req, res) {
     res.setHeader('Allow', ['POST', 'OPTIONS']);
     res.status(405).end(`Method ${req.method} Not Allowed`);
   }
-} 
+}
