@@ -18,8 +18,8 @@ function ContextEditor() {
   useEffect(() => {
     const fetchData = async (key, setter) => {
       try {
-        if (!auth.currentUser) {
-          console.error('No current user found for fetch');
+        if (!auth || !auth.currentUser) {
+          console.error('No current user found for fetch, or Firebase not initialized correctly');
           return;
         }
         const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
@@ -52,8 +52,8 @@ function ContextEditor() {
   const handleUpdate = async (key, value) => {
     try {
       setLoading(true);
-      if (!auth.currentUser) {
-        console.error('No current user found for update');
+      if (!auth || !auth.currentUser) {
+        console.error('No current user found for update, or Firebase not initialized correctly');
         return;
       }
       const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
@@ -82,8 +82,8 @@ function ContextEditor() {
   // Handler to generate the public link
   const handleGeneratePublicLink = async () => {
     try {
-      if (!auth.currentUser) {
-        console.error('No current user found for generating public link');
+      if (!auth || !auth.currentUser) {
+        console.error('No current user found for generating public link, or Firebase not initialized correctly');
         return;
       }
       const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
@@ -204,3 +204,4 @@ function ContextEditor() {
 }
 
 export default ContextEditor;
+
