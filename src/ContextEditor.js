@@ -54,7 +54,8 @@ function ContextEditor() {
       });
       alert(`${key} updated successfully.`);
     } catch (error) {
-      alert(`Failed to update ${key}.`);
+      console.error(`Failed to update ${key}:`, error); // Log the error for debugging
+      alert(`Failed to update ${key}: ${error.response?.data?.error || error.message}`);
     } finally {
       setLoading(false);
     }
@@ -73,7 +74,8 @@ function ContextEditor() {
       });
       setPublicLink(response.data.publicLink);
     } catch (error) {
-      alert('Failed to generate public link.');
+      console.error('Error generating public link:', error); // Log the error for debugging
+      alert(`Failed to generate public link: ${error.response?.data?.error || error.message}`);
     }
   };
 
@@ -97,7 +99,7 @@ function ContextEditor() {
         <textarea
           value={context}
           onChange={(e) => setContext(e.target.value)}
-          placeholder="Edit the context..."
+          placeholder="Edit the AppleseedGPT context..."
         />
         <button onClick={() => handleUpdate('context', context)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Context'}
@@ -174,3 +176,4 @@ function ContextEditor() {
 }
 
 export default ContextEditor;
+

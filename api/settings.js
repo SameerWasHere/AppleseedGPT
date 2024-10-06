@@ -1,11 +1,17 @@
 // api/settings.js (Backend changes)
 import { kv } from '@vercel/kv';
 import { getAuth } from 'firebase-admin/auth';
-import { initializeApp } from 'firebase-admin/app';
+import { initializeApp, applicationDefault } from 'firebase-admin/app';
 import { v4 as uuidv4 } from 'uuid';
 
 // Initialize Firebase Admin
-initializeApp();
+try {
+  initializeApp({
+    credential: applicationDefault(),
+  });
+} catch (error) {
+  console.error('Firebase initialization error:', error);
+}
 
 export default async function handler(req, res) {
   try {
@@ -56,6 +62,8 @@ export default async function handler(req, res) {
       res.status(405).json({ error: `Method ${req.method} not allowed.` });
     }
   } catch (error) {
-    res.status(500).json({ error: 'An error occurred while processing the request.' });
+    console.error('Error processing request:', error); // Log detailed error information
+    res.status(500).json({ error: 'An error occurred while processing the request.', details: error.message });
   }
 }
+
