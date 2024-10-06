@@ -11,7 +11,6 @@ function ContextEditor() {
   const [email, setEmail] = useState('');
   const [link, setLink] = useState('');
   const [headerImageUrl, setHeaderImageUrl] = useState('');
-  const [publicLink, setPublicLink] = useState('');
   const [loading, setLoading] = useState(false);
 
   // Utility to get user's email prefix
@@ -73,27 +72,6 @@ function ContextEditor() {
       alert(`Failed to update ${key}: ${error.response?.data?.error || error.message}`);
     } finally {
       setLoading(false);
-    }
-  };
-
-  // Handler to generate the public link
-  const handleGeneratePublicLink = async () => {
-    try {
-      const emailPrefix = getUserEmailPrefix();
-      if (!emailPrefix) {
-        return;
-      }
-
-      console.log('Generating public link');
-      console.log('Sending request to /api/settings (PUT) with emailPrefix:', emailPrefix);
-      const response = await axios.put('/api/settings', { emailPrefix });
-      setPublicLink(response.data.publicLink);
-    } catch (error) {
-      console.error('Error generating public link:', error); // Log the error for debugging
-      if (error.response) {
-        console.error('Error response from server:', error.response.data);
-      }
-      alert(`Failed to generate public link: ${error.response?.data?.error || error.message}`);
     }
   };
 
@@ -174,25 +152,9 @@ function ContextEditor() {
           {loading ? 'Updating...' : 'Update Header Image URL'}
         </button>
       </div>
-
-      <div className="form-section">
-        <h2>Generate Public Link</h2>
-        <button onClick={handleGeneratePublicLink} disabled={loading}>
-          {loading ? 'Generating...' : 'Generate Public Link'}
-        </button>
-        {publicLink && (
-          <div className="public-link">
-            <p>Your Public Chatbot Link:</p>
-            <a href={`/${publicLink}`} target="_blank" rel="noopener noreferrer">
-              {`${window.location.origin}/${publicLink}`}
-            </a>
-          </div>
-        )}
-      </div>
     </div>
   );
 }
 
 export default ContextEditor;
-
 

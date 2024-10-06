@@ -10,6 +10,7 @@ function PublicChat() {
   const [emailPrefix, setEmailPrefix] = useState('');
   const [headerImageUrl, setHeaderImageUrl] = useState(''); // State to store the header image URL
   const [link, setLink] = useState(''); // State to store the link
+  const [loading, setLoading] = useState(true); // State to track if data is loading
 
   // Get the emailPrefix from the URL
   useEffect(() => {
@@ -24,6 +25,8 @@ function PublicChat() {
     const fetchData = async () => {
       try {
         if (!emailPrefix) return;
+
+        setLoading(true);
 
         const fetchSetting = async (key, setter) => {
           const response = await axios.get(`/api/settings?key=${key}&emailPrefix=${emailPrefix}`);
@@ -40,11 +43,17 @@ function PublicChat() {
         await fetchSetting('link', setLink);
       } catch (error) {
         console.error('An error occurred while fetching the data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchData();
   }, [emailPrefix]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="public-chat-container">
@@ -69,6 +78,8 @@ function PublicChat() {
           <h1 className="title">{title || 'Loading...'}</h1> {/* Display fetched title */}
         </div>
       </div>
+
+      {/* Chat Component */}
       <Chat title={title} initialMessage={initialMessage} />
     </div>
   );

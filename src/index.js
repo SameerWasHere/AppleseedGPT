@@ -1,17 +1,28 @@
+// index.js (Updated to include routing for PublicChat and App)
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import App from './App';
+import PublicChat from './PublicChat';
 import './index.css';
-import App from './App.js'; // Added .js extension
-import reportWebVitals from './reportWebVitals.js'; // Added .js extension
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
+function MainRouter() {
+  return (
+    <Router>
+      <Switch>
+        {/* Route for the main application that includes the ContextEditor and authenticated user experience */}
+        <Route exact path="/" component={App} />
+        
+        {/* Route for public links that users can access without authentication */}
+        <Route path="/:username" component={PublicChat} />
+      </Switch>
+    </Router>
+  );
+}
+
+ReactDOM.render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <MainRouter />
+  </React.StrictMode>,
+  document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
