@@ -1,4 +1,4 @@
-// src/Login.js
+// Login.js (Updated for sales-oriented page)
 import React from 'react';
 import { signInWithGoogle } from './firebase.js';
 import './Login.css';
@@ -16,8 +16,36 @@ function Login({ setUser }) {
 
   return (
     <div className="login-container">
-      <h2>Login to Continue</h2>
-      <button onClick={handleLogin}>Sign in with Google</button>
+      {/* Header Section */}
+      <header className="header-section">
+        <h1>Create Your Own Personal Chatbot</h1>
+        <p>Imagine having a chatbot that represents you - answering questions, sharing your thoughts, and reflecting your personality. With our platform, you can create a personalized chatbot version of yourself and share it with the world!</p>
+        <button onClick={handleLogin} className="signin-button">Sign in with Google to Get Started</button>
+      </header>
+
+      {/* Step-by-Step Explanation Section */}
+      <section className="steps-section">
+        <h2>How It Works</h2>
+        <div className="steps-container">
+          <div className="step">
+            <h3>1. Log In</h3>
+            <p>Use your Google account to sign in securely and get started instantly.</p>
+          </div>
+          <div className="step">
+            <h3>2. Customize Your Chatbot</h3>
+            <p>Give your chatbot a unique personality by adding context, setting an initial message, and much more.</p>
+          </div>
+          <div className="step">
+            <h3>3. Share Your Chatbot</h3>
+            <p>Generate a link and share your personalized chatbot with friends, family, or your audience.</p>
+          </div>
+        </div>
+      </section>
+
+      {/* Final Call-to-Action Section */}
+      <section className="cta-section">
+        <button onClick={handleLogin} className="signin-button">Sign in with Google to Get Started</button>
+      </section>
     </div>
   );
 }
