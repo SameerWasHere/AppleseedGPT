@@ -11,6 +11,7 @@ function PublicChat() {
   const [initialMessage, setInitialMessage] = useState('');
   const [headerImageUrl, setHeaderImageUrl] = useState('');
   const [link, setLink] = useState('');
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -46,7 +47,8 @@ function PublicChat() {
           fetchSetting('title', setTitle),
           fetchSetting('initial_message', setInitialMessage),
           fetchSetting('headerImage', setHeaderImageUrl),
-          fetchSetting('link', setLink)
+          fetchSetting('link', setLink),
+          fetchSetting('email', setEmail)
         ]);
 
         setLoading(false);
@@ -73,15 +75,14 @@ function PublicChat() {
     <div className="public-chat-container">
       {/* Header Area */}
       <div className="header-area">
-        {link && (
+        {/* Mail Icon */}
+        {email && (
           <a
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="header-icon right-icon"
-            aria-label="LinkedIn Profile"
+            href={`mailto:${email}`}
+            className="header-icon left-icon"
+            aria-label="Send Email"
           >
-            <img src="/linkedin.png" alt="LinkedIn Icon" />
+            <img src="/mail.png" alt="Mail Icon" />
           </a>
         )}
 
@@ -95,6 +96,19 @@ function PublicChat() {
           )}
           <h1 className="title">{title || 'Welcome!'}</h1>
         </div>
+
+        {/* LinkedIn Icon */}
+        {link && (
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="header-icon right-icon"
+            aria-label="LinkedIn Profile"
+          >
+            <img src="/linkedin.png" alt="LinkedIn Icon" />
+          </a>
+        )}
       </div>
       <Chat title={title} initialMessage={initialMessage} />
     </div>
