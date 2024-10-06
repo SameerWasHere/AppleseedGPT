@@ -3,11 +3,35 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Chat.css';
 
-function Chat({ title, initialMessage }) { // Accept both title and initialMessage as props
+function Chat({ username, title, initialMessage }) {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [userContext, setUserContext] = useState('');
   const chatWindowRef = useRef(null); // Reference to the chat window
   const lastMessageRef = useRef(null); // Reference to the last message
+
+  // Fetch user's personalized context when the component mounts
+  useEffect(() => {
+    const fetchUserContext = async () => {
+      if (!username) {
+        console.error('Username is missing.');
+        return;
+      }
+
+      try {
+        const response = await axios.get(`/api/settings?key=context&emailPrefix=${username}`);
+        if (response.data && response.data.context) {
+          setUserContext(response.data.context);
+        } else {
+          console.error('Failed to load user context.');
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching the user context:', error);
+      }
+    };
+
+    fetchUserContext();
+  }, [username]);
 
   const sendMessage = async () => {
     if (input.trim() === '') return;
@@ -18,8 +42,9 @@ function Chat({ title, initialMessage }) { // Accept both title and initialMessa
     setInput('');
 
     try {
-      // Send only the updated messages to the backend
+      // Send updated messages along with user context to the backend
       const response = await axios.post('/api/chat', {
+        context: userContext,
         messages: updatedMessages,
       });
 
@@ -97,3 +122,4 @@ function Chat({ title, initialMessage }) { // Accept both title and initialMessa
 }
 
 export default Chat;
+
