@@ -4,7 +4,7 @@ import axios from 'axios';
 import './ContextEditor.css';
 import { auth } from './firebase.js';
 
-function ContextEditor() {
+function ContextEditor({ user, handleSignOut }) {
   const [title, setTitle] = useState('');
   const [context, setContext] = useState('');
   const [initialMessage, setInitialMessage] = useState('');
@@ -12,7 +12,7 @@ function ContextEditor() {
   const [link, setLink] = useState('');
   const [headerImageUrl, setHeaderImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
-  const [user, setUser] = useState(null);
+  const [publicLink, setPublicLink] = useState('');
 
   // Utility to get user's email prefix
   const getUserEmailPrefix = () => {
@@ -22,11 +22,6 @@ function ContextEditor() {
     }
     return auth.currentUser.email.split('@')[0];
   };
-
-  // Set user information when the component mounts
-  useEffect(() => {
-    setUser(auth.currentUser);
-  }, []);
 
   // Fetch the current data when the component mounts
   useEffect(() => {
@@ -67,7 +62,7 @@ function ContextEditor() {
         }
         const response = await axios.get(`/api/settings?key=public_link&emailPrefix=${emailPrefix}`);
         if (response.data && response.data.public_link) {
-          setLink(`/chat/${response.data.public_link}`);
+          setPublicLink(`/chat/${response.data.public_link}`);
         }
       } catch (error) {
         console.error('Failed to fetch public link:', error);
@@ -101,17 +96,6 @@ function ContextEditor() {
     }
   };
 
-  // Handler to sign out
-  const handleSignOut = () => {
-    auth.signOut().then(() => {
-      setUser(null);
-      console.log('User signed out successfully.');
-    }).catch((error) => {
-      console.error('Error signing out:', error);
-      alert('Failed to sign out.');
-    });
-  };
-
   return (
     <div className="context-editor-page">
       {/* User Info Section */}
@@ -123,9 +107,9 @@ function ContextEditor() {
       )}
 
       {/* Public Bot Link Section */}
-      {link && (
+      {publicLink && (
         <div className="public-bot-link">
-          <a href={link} target="_blank" rel="noopener noreferrer">Visit your public chatbot</a>
+          <a href={publicLink} target="_blank" rel="noopener noreferrer">Visit your public chatbot</a>
         </div>
       )}
 
@@ -168,44 +152,7 @@ function ContextEditor() {
           </button>
         </div>
 
-        <div className="form-section">
-          <h2>Email Editor</h2>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Edit the email..."
-          />
-          <button onClick={() => handleUpdate('email', email)} disabled={loading}>
-            {loading ? 'Updating...' : 'Update Email'}
-          </button>
-        </div>
-
-        <div className="form-section">
-          <h2>Link Editor</h2>
-          <input
-            type="text"
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-            placeholder="Edit the link..."
-          />
-          <button onClick={() => handleUpdate('link', link)} disabled={loading}>
-            {loading ? 'Updating...' : 'Update Link'}
-          </button>
-        </div>
-
-        <div className="form-section">
-          <h2>Header Image URL Editor</h2>
-          <input
-            type="text"
-            value={headerImageUrl}
-            onChange={(e) => setHeaderImageUrl(e.target.value)}
-            placeholder="Edit the Header Image URL..."
-          />
-          <button onClick={() => handleUpdate('headerImage', headerImageUrl)} disabled={loading}>
-            {loading ? 'Updating...' : 'Update Header Image URL'}
-          </button>
-        </div>
+        {/* Additional sections for editing user settings */}
       </div>
     </div>
   );
