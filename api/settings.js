@@ -1,44 +1,14 @@
 // api/settings.js (Backend changes)
 import { kv } from '@vercel/kv';
-import { getAuth } from 'firebase-admin/auth';
-import { initializeApp, cert } from 'firebase-admin/app';
 import { v4 as uuidv4 } from 'uuid';
-
-// Initialize Firebase Admin using environment variables
-try {
-  const serviceAccount = JSON.parse(process.env.FIREBASE_ADMIN_CREDENTIALS);
-  initializeApp({
-    credential: cert(serviceAccount),
-  });
-  console.log('Firebase Admin initialized successfully');
-} catch (error) {
-  if (!/already exists/u.test(error.message)) {
-    console.error('Firebase initialization error:', error);
-  } else {
-    console.log('Firebase Admin already initialized.');
-  }
-}
 
 export default async function handler(req, res) {
   try {
-    const authHeader = req.headers.authorization;
-    if (!authHeader) {
-      console.error('Authorization header is missing.');
-      return res.status(401).json({ error: 'Authorization header is required.' });
+    const emailPrefix = req.query.emailPrefix || req.body.emailPrefix;
+    if (!emailPrefix) {
+      console.error('Email prefix is required.');
+      return res.status(400).json({ error: 'Email prefix is required.' });
     }
-
-    const idToken = authHeader.split(' ')[1];
-    let decodedToken;
-    try {
-      console.log('Verifying ID token');
-      decodedToken = await getAuth().verifyIdToken(idToken);
-      console.log('ID token verified successfully');
-    } catch (error) {
-      console.error('Failed to verify ID token:', error);
-      return res.status(401).json({ error: 'Invalid or expired ID token.', details: error.message });
-    }
-
-    const userEmail = decodedToken.email.split('@')[0];
 
     if (req.method === 'GET') {
       const { key } = req.query;
@@ -49,12 +19,12 @@ export default async function handler(req, res) {
       }
 
       try {
-        console.log(`Fetching data for user ${userEmail} with key: ${key}`);
-        const value = await kv.get(`${userEmail}_${key}`);
+        console.log(`Fetching data for user ${emailPrefix} with key: ${key}`);
+        const value = await kv.get(`${emailPrefix}_${key}`);
         if (value !== undefined) {
           res.status(200).json({ [key]: value });
         } else {
-          console.warn(`Key not found for user ${userEmail}: ${key}`);
+          console.warn(`Key not found for user ${emailPrefix}: ${key}`);
           res.status(404).json({ error: 'Key not found.' });
         }
       } catch (error) {
@@ -70,8 +40,8 @@ export default async function handler(req, res) {
       }
 
       try {
-        console.log(`Updating data for user ${userEmail} with key: ${key}, value: ${value}`);
-        await kv.set(`${userEmail}_${key}`, value);
+        console.log(`Updating data for user ${emailPrefix} with key: ${key}, value: ${value}`);
+        await kv.set(`${emailPrefix}_${key}`, value);
         res.status(200).json({ message: 'Value updated successfully.' });
       } catch (error) {
         console.error('Error updating KV store:', error);
@@ -79,9 +49,9 @@ export default async function handler(req, res) {
       }
     } else if (req.method === 'PUT') {
       // Generate a unique link for the user if it doesn't exist
-      const publicLinkKey = `${userEmail}_public_link`;
+      const publicLinkKey = `${emailPrefix}_public_link`;
       try {
-        console.log(`Generating public link for user ${userEmail}`);
+        console.log(`Generating public link for user ${emailPrefix}`);
         let publicLink = await kv.get(publicLinkKey);
 
         if (!publicLink) {
