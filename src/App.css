@@ -1,4 +1,4 @@
-/* App.css - Updated Version */
+/* App.css - Revised Version */
 
 /* Global box-sizing reset and margin/padding reset */
 *, *::before, *::after {
@@ -20,8 +20,8 @@ html, body {
 .app-container {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
   align-items: center;
+  min-height: 100vh;
   padding-top: 80px;
   padding-bottom: 50px;
 }
@@ -34,7 +34,7 @@ html, body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 20px;
+  padding: 15px 20px;
   background-color: #007bff;
   color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
@@ -62,10 +62,12 @@ html, body {
 /* Public bot link styling */
 .public-bot-link {
   margin: 20px 0;
-  padding: 10px;
-  background-color: #f0f0f0;
+  padding: 15px;
+  text-align: center;
+  background-color: #f8f9fa;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 40px);
 }
 
 .public-bot-link a {
@@ -86,10 +88,11 @@ html, body {
   background-color: white;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  margin: 20px 0;
 }
 
 .form-section {
-  margin-bottom: 20px;
+  margin-bottom: 25px;
 }
 
 .form-section h2 {
@@ -128,11 +131,36 @@ html, body {
   background-color: #0056b3;
 }
 
+/* Sign-in and welcome area styling (to be centered) */
+.sign-in-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 50px;
+}
+
+.sign-in-section button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 1.1em;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.sign-in-section button:hover {
+  background-color: #0056b3;
+}
+
 /* Responsive adjustments */
 @media (max-width: 600px) {
   .user-info {
     flex-direction: column;
     align-items: flex-start;
+    padding: 10px;
   }
 
   .context-editor-page {
@@ -141,5 +169,10 @@ html, body {
 
   .form-section button {
     width: 100%;
+  }
+
+  .public-bot-link {
+    width: calc(100% - 20px);
+    padding: 10px;
   }
 }
