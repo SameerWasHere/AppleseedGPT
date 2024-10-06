@@ -1,6 +1,5 @@
 // api/settings.js (Backend changes)
 import { kv } from '@vercel/kv';
-import { v4 as uuidv4 } from 'uuid';
 
 export default async function handler(req, res) {
   try {
@@ -48,14 +47,14 @@ export default async function handler(req, res) {
         return res.status(500).json({ error: 'Failed to update KV store.', details: error.message });
       }
     } else if (req.method === 'PUT') {
-      // Generate a unique link for the user if it doesn't exist
+      // Generate a public link using the user's email prefix if it doesn't exist
       const publicLinkKey = `${emailPrefix}_public_link`;
       try {
         console.log(`Generating public link for user ${emailPrefix}`);
         let publicLink = await kv.get(publicLinkKey);
 
         if (!publicLink) {
-          publicLink = `chat/${uuidv4()}`;
+          publicLink = `chat/${emailPrefix}`; // Use emailPrefix to generate a user-friendly link
           console.log(`Generated new public link: ${publicLink}`);
           await kv.set(publicLinkKey, publicLink);
         } else {

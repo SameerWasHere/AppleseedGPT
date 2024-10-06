@@ -1,45 +1,43 @@
 // PublicChat.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom'; // Import useParams to get route parameters
 import Chat from './Chat.js';
 import './PublicChat.css';
 
 function PublicChat() {
+  const { username } = useParams(); // Extract the username from the URL parameters
   const [title, setTitle] = useState('');
   const [initialMessage, setInitialMessage] = useState('');
-  const [emailPrefix, setEmailPrefix] = useState('');
   const [headerImageUrl, setHeaderImageUrl] = useState('');
   const [link, setLink] = useState('');
-  const [loading, setLoading] = useState(true); // New state for loading indication
-  const [error, setError] = useState(null); // New state for error indication
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Get the emailPrefix from the URL
-  useEffect(() => {
-    const pathParts = window.location.pathname.split('/');
-    if (pathParts.length > 1) {
-      setEmailPrefix(pathParts[1]); // Assuming the public link looks like "/username"
-    }
-  }, []);
-
-  // Fetch the settings based on emailPrefix when the component mounts
+  // Fetch the settings based on emailPrefix (username) when the component mounts
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!emailPrefix) {
-          console.error('Email prefix is missing.');
-          setError('Email prefix is missing.');
+        if (!username) {
+          console.error('Username is missing.');
+          setError('Username is missing.');
           setLoading(false);
           return;
         }
 
-        console.log(`Fetching data for emailPrefix: ${emailPrefix}`);
+        console.log(`Fetching data for username: ${username}`);
         
         const fetchSetting = async (key, setter) => {
-          const response = await axios.get(`/api/settings?key=${key}&emailPrefix=${emailPrefix}`);
-          if (response.data && response.data[key] !== undefined) {
-            setter(response.data[key]);
-          } else {
-            console.error(`Failed to load ${key}.`);
+          try {
+            const response = await axios.get(`/api/settings?key=${key}&emailPrefix=${username}`);
+            if (response.data && response.data[key] !== undefined) {
+              setter(response.data[key]);
+            } else {
+              console.error(`Failed to load ${key}.`);
+              setError(`Failed to load ${key}.`);
+            }
+          } catch (fetchError) {
+            console.error(`Error fetching key "${key}":`, fetchError);
             setError(`Failed to load ${key}.`);
           }
         };
@@ -51,7 +49,7 @@ function PublicChat() {
           fetchSetting('link', setLink)
         ]);
 
-        setLoading(false); // Set loading to false once data is fetched
+        setLoading(false);
 
       } catch (error) {
         console.error('An error occurred while fetching the data:', error);
@@ -61,7 +59,7 @@ function PublicChat() {
     };
 
     fetchData();
-  }, [emailPrefix]);
+  }, [username]);
 
   if (loading) {
     return <div className="public-chat-container"><p>Loading...</p></div>;
@@ -75,23 +73,27 @@ function PublicChat() {
     <div className="public-chat-container">
       {/* Header Area */}
       <div className="header-area">
-        <a
-          href={link || 'https://www.linkedin.com/in/johnny-appleseed-81a57b26a/'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="header-icon right-icon"
-          aria-label="LinkedIn Profile"
-        >
-          <img src="/linkedin.png" alt="LinkedIn Icon" />
-        </a>
+        {link && (
+          <a
+            href={link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="header-icon right-icon"
+            aria-label="LinkedIn Profile"
+          >
+            <img src="/linkedin.png" alt="LinkedIn Icon" />
+          </a>
+        )}
 
         <div className="header-center">
-          <img
-            src={headerImageUrl || '/header.gif'}
-            alt="Header GIF"
-            className="header-gif"
-          />
-          <h1 className="title">{title || 'Loading...'}</h1>
+          {headerImageUrl && (
+            <img
+              src={headerImageUrl}
+              alt="Header GIF"
+              className="header-gif"
+            />
+          )}
+          <h1 className="title">{title || 'Welcome!'}</h1>
         </div>
       </div>
       <Chat title={title} initialMessage={initialMessage} />

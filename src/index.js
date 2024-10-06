@@ -14,7 +14,7 @@ function MainRouter() {
         <Route path="/" element={<App />} />
 
         {/* Route for public links that users can access without authentication */}
-        <Route path="/:username" element={<PublicChat />} />
+        <Route path="/chat/:username" element={<PublicChat />} />
       </Routes>
     </Router>
   );
