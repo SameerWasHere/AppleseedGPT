@@ -23,13 +23,6 @@ function Login({ setUser }) {
         <div className="scroll-down">scroll down</div>
       </div>
 
-      {/* Header Section */}
-      <header className="header-section">
-        <h1>Create Your Own Personal Chatbot</h1>
-        <p></p>
-        <button onClick={handleLogin} className="signin-button">Sign in with Google to Get Started</button>
-      </header>
-
       {/* Step-by-Step Explanation Section */}
       <section className="steps-section">
         <h2>How It Works</h2>
