@@ -17,7 +17,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   height: 100vh;
   width: 100%;
   color: #fff;
@@ -31,18 +31,20 @@
 .top-panel .brand-logo {
   font-size: 2rem;
   font-weight: bold;
-  margin-bottom: 20px;
+  margin-top: 20px;
+  align-self: flex-start;
 }
 
 .top-panel h1 {
   font-size: 2.5rem;
   font-weight: bold;
-  margin-bottom: 40px;
+  margin: auto 0;
 }
 
 .top-panel .scroll-down {
   font-size: 1.2rem;
-  margin-top: 40px;
+  margin-bottom: 20px;
+  align-self: flex-end;
 }
 
 /* Header section styling */
@@ -155,6 +157,6 @@
 
   .top-panel .scroll-down {
     font-size: 1rem;
-    margin-top: 20px;
+    margin-bottom: 10px;
   }
 }
