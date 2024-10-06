@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import './Chat.css';
 
-function Chat({ title }) { // Accept title as a prop
+function Chat({ title, initialMessage }) { // Accept both title and initialMessage as props
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const chatWindowRef = useRef(null); // Reference to the chat window
@@ -34,34 +34,23 @@ function Chat({ title }) { // Accept title as a prop
     }
   };
 
-  // Fetch the initial message from the database and display it after a delay
+  // Set the initial message if provided
   useEffect(() => {
-    const fetchInitialMessage = async () => {
-      try {
-        const response = await axios.get('/api/getInitialMessage'); // API endpoint to fetch the initial message
-        if (response.data && response.data.initialMessage) {
-          const initialMessage = {
-            role: 'assistant',
-            content: response.data.initialMessage,
-          };
+    if (initialMessage) {
+      const message = {
+        role: 'assistant',
+        content: initialMessage,
+      };
 
-          // Set a delay before displaying the initial message
-          const timer = setTimeout(() => {
-            setMessages([initialMessage]);
-          }, 2000);
+      // Set a delay before displaying the initial message
+      const timer = setTimeout(() => {
+        setMessages([message]);
+      }, 2000);
 
-          // Clean up the timer when the component is unmounted
-          return () => clearTimeout(timer);
-        } else {
-          alert('Failed to load the initial message.');
-        }
-      } catch (error) {
-        alert('An error occurred while fetching the initial message.');
-      }
-    };
-
-    fetchInitialMessage();
-  }, []);
+      // Clean up the timer when the component is unmounted
+      return () => clearTimeout(timer);
+    }
+  }, [initialMessage]);
 
   // Auto-scroll to the latest message when messages update
   useEffect(() => {
