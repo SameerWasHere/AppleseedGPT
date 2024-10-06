@@ -3,7 +3,8 @@
 /* Overall container styling */
 .context-editor {
   padding: 20px;
-  max-width: 800px;
+  width: 80%;
+  max-width: 1200px;
   margin: 0 auto;
   background-color: #f9f9f9;
   border: 1px solid #ddd;
@@ -64,4 +65,25 @@
 
 .context-editor .form-section:last-child {
   margin-bottom: 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+  .header-area {
+    height: 130px;
+    padding: 0 15px;
+  }
+
+  .header-top .sign-out-button {
+    padding: 3px 8px;
+    font-size: 0.8em;
+  }
+
+  .public-link-container {
+    padding: 10px;
+  }
+
+  .copy-button {
+    padding: 2px 5px;
+  }
 }
