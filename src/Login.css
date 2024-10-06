@@ -24,7 +24,8 @@
   text-align: center;
   padding: 20px;
   box-sizing: border-box;
-  background-color: #333;
+  background: url('/public/background.gif') no-repeat center center;
+  background-size: cover;
   position: relative;
 }
 
