@@ -14,22 +14,26 @@ function ContextEditor() {
   const [publicLink, setPublicLink] = useState('');
   const [loading, setLoading] = useState(false);
 
+  // Utility to get user's email prefix
+  const getUserEmailPrefix = () => {
+    if (!auth.currentUser || !auth.currentUser.email) {
+      console.error('No current user or user email found.');
+      return null;
+    }
+    return auth.currentUser.email.split('@')[0];
+  };
+
   // Fetch the current data when the component mounts
   useEffect(() => {
     const fetchData = async (key, setter) => {
       try {
-        if (!auth || !auth.currentUser) {
-          console.error('No current user found for fetch, or Firebase not initialized correctly');
+        const emailPrefix = getUserEmailPrefix();
+        if (!emailPrefix) {
           return;
         }
-        const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
         console.log(`Fetching data for key: ${key}`);
-        const response = await axios.get(`/api/settings?key=${key}`, {
-          headers: {
-            Authorization: `Bearer ${idToken}`,
-          },
-        });
+        const response = await axios.get(`/api/settings?key=${key}&emailPrefix=${emailPrefix}`);
         setter(response.data[key]);
       } catch (error) {
         console.error(`Failed to fetch ${key}:`, error);
@@ -52,21 +56,14 @@ function ContextEditor() {
   const handleUpdate = async (key, value) => {
     try {
       setLoading(true);
-      if (!auth || !auth.currentUser) {
-        console.error('No current user found for update, or Firebase not initialized correctly');
+      const emailPrefix = getUserEmailPrefix();
+      if (!emailPrefix) {
         return;
       }
-      const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
       console.log(`Attempting to update ${key} with value:`, value);
-      console.log('Sending request to /api/settings with headers:', {
-        Authorization: `Bearer ${idToken}`,
-      });
-      await axios.post('/api/settings', { key, value }, {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
+      console.log('Sending request to /api/settings with emailPrefix:', emailPrefix);
+      await axios.post('/api/settings', { key, value, emailPrefix });
       alert(`${key} updated successfully.`);
     } catch (error) {
       console.error(`Failed to update ${key}:`, error); // Log the error for debugging
@@ -82,21 +79,14 @@ function ContextEditor() {
   // Handler to generate the public link
   const handleGeneratePublicLink = async () => {
     try {
-      if (!auth || !auth.currentUser) {
-        console.error('No current user found for generating public link, or Firebase not initialized correctly');
+      const emailPrefix = getUserEmailPrefix();
+      if (!emailPrefix) {
         return;
       }
-      const idToken = await auth.currentUser.getIdToken(); // Get user's ID token
 
       console.log('Generating public link');
-      console.log('Sending request to /api/settings (PUT) with headers:', {
-        Authorization: `Bearer ${idToken}`,
-      });
-      const response = await axios.put('/api/settings', {}, {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      });
+      console.log('Sending request to /api/settings (PUT) with emailPrefix:', emailPrefix);
+      const response = await axios.put('/api/settings', { emailPrefix });
       setPublicLink(response.data.publicLink);
     } catch (error) {
       console.error('Error generating public link:', error); // Log the error for debugging
@@ -127,7 +117,7 @@ function ContextEditor() {
         <textarea
           value={context}
           onChange={(e) => setContext(e.target.value)}
-          placeholder="Edit the AppleseedGPT context..."
+          placeholder="Edit the context..."
         />
         <button onClick={() => handleUpdate('context', context)} disabled={loading}>
           {loading ? 'Updating...' : 'Update Context'}
@@ -204,4 +194,5 @@ function ContextEditor() {
 }
 
 export default ContextEditor;
+
 

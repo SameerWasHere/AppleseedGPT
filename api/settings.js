@@ -38,7 +38,7 @@ export default async function handler(req, res) {
       return res.status(401).json({ error: 'Invalid or expired ID token.', details: error.message });
     }
 
-    const userId = decodedToken.uid;
+    const userEmail = decodedToken.email.split('@')[0];
 
     if (req.method === 'GET') {
       const { key } = req.query;
@@ -49,12 +49,12 @@ export default async function handler(req, res) {
       }
 
       try {
-        console.log(`Fetching data for user ${userId} with key: ${key}`);
-        const value = await kv.get(`${userId}_${key}`);
+        console.log(`Fetching data for user ${userEmail} with key: ${key}`);
+        const value = await kv.get(`${userEmail}_${key}`);
         if (value !== undefined) {
           res.status(200).json({ [key]: value });
         } else {
-          console.warn(`Key not found for user ${userId}: ${key}`);
+          console.warn(`Key not found for user ${userEmail}: ${key}`);
           res.status(404).json({ error: 'Key not found.' });
         }
       } catch (error) {
@@ -70,8 +70,8 @@ export default async function handler(req, res) {
       }
 
       try {
-        console.log(`Updating data for user ${userId} with key: ${key}, value: ${value}`);
-        await kv.set(`${userId}_${key}`, value);
+        console.log(`Updating data for user ${userEmail} with key: ${key}, value: ${value}`);
+        await kv.set(`${userEmail}_${key}`, value);
         res.status(200).json({ message: 'Value updated successfully.' });
       } catch (error) {
         console.error('Error updating KV store:', error);
@@ -79,9 +79,9 @@ export default async function handler(req, res) {
       }
     } else if (req.method === 'PUT') {
       // Generate a unique link for the user if it doesn't exist
-      const publicLinkKey = `${userId}_public_link`;
+      const publicLinkKey = `${userEmail}_public_link`;
       try {
-        console.log(`Generating public link for user ${userId}`);
+        console.log(`Generating public link for user ${userEmail}`);
         let publicLink = await kv.get(publicLinkKey);
 
         if (!publicLink) {
