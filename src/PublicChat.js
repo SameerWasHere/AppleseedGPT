@@ -1,16 +1,16 @@
 // PublicChat.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Chat from './Chat.js';
-import './PublicChat.css'; // Optional: add any specific styles for public chat
+import Chat from './Chat';
+import './PublicChat.css';
 
 function PublicChat() {
   const [title, setTitle] = useState('');
   const [initialMessage, setInitialMessage] = useState('');
   const [emailPrefix, setEmailPrefix] = useState('');
-  const [headerImageUrl, setHeaderImageUrl] = useState(''); // State to store the header image URL
-  const [link, setLink] = useState(''); // State to store the link
-  const [loading, setLoading] = useState(true); // State to track if data is loading
+  const [headerImageUrl, setHeaderImageUrl] = useState('');
+  const [link, setLink] = useState('');
+  const [loading, setLoading] = useState(true); // New state for loading indication
 
   // Get the emailPrefix from the URL
   useEffect(() => {
@@ -24,26 +24,33 @@ function PublicChat() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        if (!emailPrefix) return;
+        if (!emailPrefix) {
+          console.error('Email prefix is missing.');
+          return;
+        }
 
-        setLoading(true);
-
+        console.log(`Fetching data for emailPrefix: ${emailPrefix}`);
+        
         const fetchSetting = async (key, setter) => {
           const response = await axios.get(`/api/settings?key=${key}&emailPrefix=${emailPrefix}`);
           if (response.data && response.data[key] !== undefined) {
             setter(response.data[key]);
           } else {
-            console.error(`Failed to load ${key}`);
+            console.error(`Failed to load ${key}.`);
           }
         };
 
-        await fetchSetting('title', setTitle);
-        await fetchSetting('initial_message', setInitialMessage);
-        await fetchSetting('headerImage', setHeaderImageUrl);
-        await fetchSetting('link', setLink);
+        await Promise.all([
+          fetchSetting('title', setTitle),
+          fetchSetting('initial_message', setInitialMessage),
+          fetchSetting('headerImage', setHeaderImageUrl),
+          fetchSetting('link', setLink)
+        ]);
+
+        setLoading(false); // Set loading to false once data is fetched
+
       } catch (error) {
         console.error('An error occurred while fetching the data:', error);
-      } finally {
         setLoading(false);
       }
     };
@@ -52,7 +59,7 @@ function PublicChat() {
   }, [emailPrefix]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div className="public-chat-container"><p>Loading...</p></div>;
   }
 
   return (
@@ -60,7 +67,7 @@ function PublicChat() {
       {/* Header Area */}
       <div className="header-area">
         <a
-          href={link || 'https://www.linkedin.com/in/johnny-appleseed-81a57b26a/'} // Use the fetched link or a fallback
+          href={link || 'https://www.linkedin.com/in/johnny-appleseed-81a57b26a/'}
           target="_blank"
           rel="noopener noreferrer"
           className="header-icon right-icon"
@@ -71,15 +78,13 @@ function PublicChat() {
 
         <div className="header-center">
           <img
-            src={headerImageUrl || '/header.gif'} // Use the fetched header image URL or a fallback
+            src={headerImageUrl || '/header.gif'}
             alt="Header GIF"
             className="header-gif"
           />
-          <h1 className="title">{title || 'Loading...'}</h1> {/* Display fetched title */}
+          <h1 className="title">{title || 'Loading...'}</h1>
         </div>
       </div>
-
-      {/* Chat Component */}
       <Chat title={title} initialMessage={initialMessage} />
     </div>
   );
