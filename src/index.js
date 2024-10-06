@@ -2,8 +2,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import App from './App';
-import PublicChat from './PublicChat';
+import App from './App.js';  // Added the .js extension to correctly reference the file
+import PublicChat from './PublicChat.js'; // Added the .js extension to correctly reference the file
 import './index.css';
 
 function MainRouter() {
