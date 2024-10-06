@@ -11,6 +11,7 @@ function PublicChat() {
   const [headerImageUrl, setHeaderImageUrl] = useState('');
   const [link, setLink] = useState('');
   const [loading, setLoading] = useState(true); // New state for loading indication
+  const [error, setError] = useState(null); // New state for error indication
 
   // Get the emailPrefix from the URL
   useEffect(() => {
@@ -26,6 +27,8 @@ function PublicChat() {
       try {
         if (!emailPrefix) {
           console.error('Email prefix is missing.');
+          setError('Email prefix is missing.');
+          setLoading(false);
           return;
         }
 
@@ -37,6 +40,7 @@ function PublicChat() {
             setter(response.data[key]);
           } else {
             console.error(`Failed to load ${key}.`);
+            setError(`Failed to load ${key}.`);
           }
         };
 
@@ -51,6 +55,7 @@ function PublicChat() {
 
       } catch (error) {
         console.error('An error occurred while fetching the data:', error);
+        setError('An error occurred while fetching the data.');
         setLoading(false);
       }
     };
@@ -60,6 +65,10 @@ function PublicChat() {
 
   if (loading) {
     return <div className="public-chat-container"><p>Loading...</p></div>;
+  }
+
+  if (error) {
+    return <div className="public-chat-container"><p>{error}</p></div>;
   }
 
   return (
