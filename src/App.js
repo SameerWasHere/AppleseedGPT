@@ -59,13 +59,23 @@ function App() {
   }, [user]);
 
   const handleSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        setUser(null);
-      })
-      .catch((error) => {
-        console.error('Error signing out:', error);
-      });
+    if (window.confirm("Are you sure you want to log out?")) {
+      signOut(auth)
+        .then(() => {
+          setUser(null);
+        })
+        .catch((error) => {
+          console.error('Error signing out:', error);
+        });
+    }
+  };
+
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(publicLink).then(() => {
+      alert('Public link copied to clipboard!');
+    }).catch((error) => {
+      console.error('Failed to copy the link:', error);
+    });
   };
 
   if (!user) {
@@ -74,15 +84,16 @@ function App() {
 
   return (
     <div className="app-container">
-      <header>
+      <header className="header-area">
         <h2>Welcome, {user.displayName}</h2>
-        <button onClick={handleSignOut}>Sign Out</button>
+        <button className="sign-out-button" onClick={handleSignOut}>Sign Out</button>
         {publicLink && (
           <div className="public-link">
             <p>Your Public Chatbot Link:</p>
             <a href={publicLink} target="_blank" rel="noopener noreferrer">
               {publicLink}
             </a>
+            <button className="copy-button" onClick={copyToClipboard}>Copy Link</button>
           </div>
         )}
       </header>
