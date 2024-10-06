@@ -40,9 +40,9 @@ html, body {
   right: 0;
   height: 150px; /* Increased height to accommodate larger GIF */
   display: flex;
+  flex-direction: column;
   align-items: center; /* Center items vertically */
-  justify-content: space-between; /* Space between items */
-  padding: 0 20px; /* Horizontal padding */
+  padding: 10px 20px; /* Horizontal padding */
   background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque background */
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -52,14 +52,22 @@ html, body {
   touch-action: manipulation; /* Disables zoom behavior */
 }
 
-/* Styling for the header text and buttons */
-.header-area h2 {
-  font-size: 1.2em;
-  margin: 0;
-  text-align: center;
+/* Header top section containing welcome text and sign-out button */
+.header-top {
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
+/* Styling for the welcome text */
+.header-area .welcome-text {
+  font-size: 1em;
+  margin: 0;
+  text-align: left;
+}
+
+/* Styling for the sign-out button */
 .sign-out-button {
   padding: 5px 10px;
   background-color: #ff4b4b; /* A red color for logout to make it more noticeable */
@@ -68,7 +76,6 @@ html, body {
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin: 0 auto;
 }
 
 .sign-out-button:hover {
@@ -76,16 +83,18 @@ html, body {
 }
 
 /* Public link container styling */
-.public-link {
+.public-link-container {
+  margin-top: 10px;
   padding: 15px;
-  margin-top: 20px;
   background-color: #f5f5f5;
   border-radius: 8px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   text-align: center;
-  display: flex;
+}
+
+.public-link {
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
   gap: 10px;
 }
 
@@ -137,9 +146,8 @@ html, body {
     font-size: 0.8em;
   }
 
-  .public-link {
+  .public-link-container {
     padding: 10px;
-    flex-direction: column;
   }
 
   .copy-button {
