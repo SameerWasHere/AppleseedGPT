@@ -4,7 +4,7 @@ import axios from 'axios';
 import './ContextEditor.css';
 import { auth } from './firebase.js';
 
-function ContextEditor({ user, handleSignOut }) {
+function ContextEditor() {
   const [title, setTitle] = useState('');
   const [context, setContext] = useState('');
   const [initialMessage, setInitialMessage] = useState('');
@@ -12,7 +12,6 @@ function ContextEditor({ user, handleSignOut }) {
   const [link, setLink] = useState('');
   const [headerImageUrl, setHeaderImageUrl] = useState('');
   const [loading, setLoading] = useState(false);
-  const [publicLink, setPublicLink] = useState('');
 
   // Utility to get user's email prefix
   const getUserEmailPrefix = () => {
@@ -52,26 +51,6 @@ function ContextEditor({ user, handleSignOut }) {
     fetchData('headerImage', setHeaderImageUrl);
   }, []);
 
-  // Fetch the public link for the chatbot when the component mounts
-  useEffect(() => {
-    const fetchPublicLink = async () => {
-      try {
-        const emailPrefix = getUserEmailPrefix();
-        if (!emailPrefix) {
-          return;
-        }
-        const response = await axios.get(`/api/settings?key=public_link&emailPrefix=${emailPrefix}`);
-        if (response.data && response.data.public_link) {
-          setPublicLink(`/chat/${response.data.public_link}`);
-        }
-      } catch (error) {
-        console.error('Failed to fetch public link:', error);
-      }
-    };
-
-    fetchPublicLink();
-  }, []);
-
   // Generic handler to update any value in the database
   const handleUpdate = async (key, value) => {
     try {
@@ -97,66 +76,84 @@ function ContextEditor({ user, handleSignOut }) {
   };
 
   return (
-    <div className="context-editor-page">
-      {/* User Info Section */}
-      {user && (
-        <div className="user-info">
-          <span className="welcome-message">Welcome, {user.displayName || user.email}</span>
-          <button onClick={handleSignOut}>Sign Out</button>
-        </div>
-      )}
+    <div className="context-editor">
+      <div className="form-section">
+        <h2>Title Editor</h2>
+        <input
+          type="text"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          placeholder="Edit the title..."
+        />
+        <button onClick={() => handleUpdate('title', title)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Title'}
+        </button>
+      </div>
 
-      {/* Public Bot Link Section */}
-      {publicLink && (
-        <div className="public-bot-link">
-          <a href={publicLink} target="_blank" rel="noopener noreferrer">Visit your public chatbot</a>
-        </div>
-      )}
+      <div className="form-section">
+        <h2>Context Editor</h2>
+        <textarea
+          value={context}
+          onChange={(e) => setContext(e.target.value)}
+          placeholder="Edit the context..."
+        />
+        <button onClick={() => handleUpdate('context', context)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Context'}
+        </button>
+      </div>
 
-      {/* Context Editor Form */}
-      <div className="context-editor">
-        <div className="form-section">
-          <h2>Title Editor</h2>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="Edit the title..."
-          />
-          <button onClick={() => handleUpdate('title', title)} disabled={loading}>
-            {loading ? 'Updating...' : 'Update Title'}
-          </button>
-        </div>
+      <div className="form-section">
+        <h2>Initial Message Editor</h2>
+        <textarea
+          value={initialMessage}
+          onChange={(e) => setInitialMessage(e.target.value)}
+          placeholder="Edit the initial message..."
+        />
+        <button onClick={() => handleUpdate('initial_message', initialMessage)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Initial Message'}
+        </button>
+      </div>
 
-        <div className="form-section">
-          <h2>Context Editor</h2>
-          <textarea
-            value={context}
-            onChange={(e) => setContext(e.target.value)}
-            placeholder="Edit the context..."
-          />
-          <button onClick={() => handleUpdate('context', context)} disabled={loading}>
-            {loading ? 'Updating...' : 'Update Context'}
-          </button>
-        </div>
+      <div className="form-section">
+        <h2>Email Editor</h2>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Edit the email..."
+        />
+        <button onClick={() => handleUpdate('email', email)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Email'}
+        </button>
+      </div>
 
-        <div className="form-section">
-          <h2>Initial Message Editor</h2>
-          <textarea
-            value={initialMessage}
-            onChange={(e) => setInitialMessage(e.target.value)}
-            placeholder="Edit the initial message..."
-          />
-          <button onClick={() => handleUpdate('initial_message', initialMessage)} disabled={loading}>
-            {loading ? 'Updating...' : 'Update Initial Message'}
-          </button>
-        </div>
+      <div className="form-section">
+        <h2>Link Editor</h2>
+        <input
+          type="text"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          placeholder="Edit the link..."
+        />
+        <button onClick={() => handleUpdate('link', link)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Link'}
+        </button>
+      </div>
 
-        {/* Additional sections for editing user settings */}
+      <div className="form-section">
+        <h2>Header Image URL Editor</h2>
+        <input
+          type="text"
+          value={headerImageUrl}
+          onChange={(e) => setHeaderImageUrl(e.target.value)}
+          placeholder="Edit the Header Image URL..."
+        />
+        <button onClick={() => handleUpdate('headerImage', headerImageUrl)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Header Image URL'}
+        </button>
       </div>
     </div>
   );
 }
 
 export default ContextEditor;
- 
