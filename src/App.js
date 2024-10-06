@@ -19,36 +19,22 @@ function App() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const titleResponse = await axios.get('/api/getTitle'); // API endpoint to fetch the title
-        if (titleResponse.data && titleResponse.data.title) {
-          setTitle(titleResponse.data.title);
-        } else {
-          alert('Failed to load the title.');
-        }
+        // Use consolidated settings API to get each value
+        const fetchSetting = async (key, setter) => {
+          const response = await axios.get(`/api/settings?key=${key}`);
+          if (response.data && response.data[key] !== undefined) {
+            setter(response.data[key]);
+          } else {
+            console.error(`Failed to load ${key}`);
+          }
+        };
 
-        const emailResponse = await axios.get('/api/getEmail'); // API endpoint to fetch the email
-        if (emailResponse.data && emailResponse.data.email) {
-          setEmail(emailResponse.data.email);
-        } else {
-          alert('Failed to load the email.');
-        }
-
-        const linkResponse = await axios.get('/api/getLink'); // API endpoint to fetch the link
-        if (linkResponse.data && linkResponse.data.link) {
-          setLink(linkResponse.data.link);
-        } else {
-          alert('Failed to load the link.');
-        }
-
-        // Fetch header image URL from the database
-        const headerImageResponse = await axios.get('/api/getHeaderImage'); // Update the endpoint as needed
-        if (headerImageResponse.data && headerImageResponse.data.appleseed_headerImage) {
-          setHeaderImageUrl(headerImageResponse.data.appleseed_headerImage);
-        } else {
-          alert('Failed to load the header image.');
-        }
+        await fetchSetting('appleseed_title', setTitle);
+        await fetchSetting('appleseed_email', setEmail);
+        await fetchSetting('appleseed_link', setLink);
+        await fetchSetting('appleseed_headerImage', setHeaderImageUrl);
       } catch (error) {
-        alert('An error occurred while fetching the data.');
+        console.error('An error occurred while fetching the data:', error);
       }
     };
 
