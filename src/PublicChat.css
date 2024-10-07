@@ -63,11 +63,11 @@ html, body {
 }
 
 /* Adjust margins to move icons inward */
-.left-icon {
+.header-icon.left-icon {
   margin-right: 20px; /* Ensure sufficient space between icon and center content */
 }
 
-.right-icon {
+.header-icon.right-icon {
   margin-left: 20px; /* Ensure sufficient space between icon and center content */
 }
 
