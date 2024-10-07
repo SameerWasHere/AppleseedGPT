@@ -5,7 +5,7 @@
   padding: 20px;
   width: 100%;
   max-width: 1200px;
-  margin: 0;
+  margin: 0 auto; /* Center the container */
   background-color: #f9f9f9;
   border: 1px solid #ddd;
   border-radius: 8px;
@@ -151,6 +151,7 @@
   .context-editor {
     padding: 10px;
     width: 100%;
+    margin: 0 auto; /* Ensure container is centered on mobile */
   }
 
   .copy-button {
@@ -166,3 +167,4 @@
     font-size: 0.6rem;
   }
 }
+
