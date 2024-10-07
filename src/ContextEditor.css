@@ -68,39 +68,42 @@
   margin-bottom: 0;
 }
 
-/* Public link container styling to fit mobile screen */
-.public-link-container {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  width: 100%;
-  margin-top: 10px;
-  padding: 15px;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+/* Public link section styling */
+.public-link-section {
+  margin-bottom: 20px;
 }
 
-.public-link {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+.public-link-section h2 {
+  font-size: 1.5rem;
+  margin-bottom: 10px;
+  color: #333;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 5px;
+}
+
+.public-link-section p {
+  margin-bottom: 10px;
+  color: #666;
+  font-size: 1rem;
+}
+
+.public-link-display {
+  font-size: 1rem;
+  color: #007bff;
+  word-break: break-all;
+  margin-bottom: 15px;
 }
 
 /* Copy button styling */
 .copy-button {
-  padding: 1px 3px;
-  font-size: 0.6rem;
+  padding: 10px 20px;
+  font-size: 1rem;
   background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 3px;
+  border-radius: 5px;
   cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 /* Copy button hover effect */
@@ -143,7 +146,7 @@
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-  .public-link-container {
+  .public-link-section {
     padding: 10px;
     width: 100%;
   }

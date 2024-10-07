@@ -115,16 +115,13 @@ function ContextEditor({ user, setUser }) {
       <div className="user-controls">
         <h2 className="welcome-text">Welcome, {user.displayName}</h2>
         <button className="sign-out-button" onClick={handleSignOut}>Sign Out</button>
-        {publicLink && (
-          <div className="public-link-container">
-            <div className="public-link">
-              <a href={publicLink} target="_blank" rel="noopener noreferrer">
-                {publicLink}
-              </a>
-              <button className="copy-button" onClick={copyToClipboard}>Copy</button>
-            </div>
-          </div>
-        )}
+      </div>
+
+      <div className="form-section public-link-section">
+        <h2>Your Public Chat Bot Link</h2>
+        <p>This is the link to your chatbot, use it to share your chatbot with the world!</p>
+        <div className="public-link-display">{publicLink}</div>
+        <button className="copy-button" onClick={copyToClipboard}>Copy</button>
       </div>
 
       {/* Context Editing Forms */}
