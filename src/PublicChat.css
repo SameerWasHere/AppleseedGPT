@@ -38,7 +38,6 @@ html, body {
   height: 170px; /* Adjusted height to provide more space for title and icons */
   display: flex;
   align-items: center;
-  justify-content: space-between;
   padding: 0 30px; /* Increased horizontal padding */
   background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
@@ -48,8 +47,7 @@ html, body {
 }
 
 /* Styling for the header icons */
-.left-icon {
-  margin-right: 20px; /* Ensure sufficient space between icon and center content */
+.left-icon, .right-icon {
   width: 40px;
   height: 40px;
   display: flex;
@@ -58,14 +56,12 @@ html, body {
   flex-shrink: 0;
 }
 
+.left-icon {
+  margin-right: auto; /* Pushes the header-center to the right */
+}
+
 .right-icon {
-  margin-left: 20px; /* Ensure sufficient space between icon and center content */
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
+  margin-left: auto; /* Pushes the header-center to the left */
 }
 
 .left-icon img, .right-icon img {
@@ -81,8 +77,7 @@ html, body {
   align-items: center;
   justify-content: center;
   text-align: center;
-  flex: 1;
-  margin: 0 50px; /* Added margin to provide more separation from the icons */
+  flex-basis: 60%;
 }
 
 /* Styling for the header GIF */
@@ -188,8 +183,7 @@ html, body {
     font-size: 1.2em;
   }
 
-  .header-icon.left-icon,
-  .header-icon.right-icon {
+  .left-icon, .right-icon {
     width: 30px;
     height: 30px;
   }
