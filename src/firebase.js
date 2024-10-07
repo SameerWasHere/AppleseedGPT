@@ -1,6 +1,6 @@
 // src/firebase.js
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as firebaseSignOut } from "firebase/auth";
 
 // Firebase configuration using environment variables
 const firebaseConfig = {
@@ -22,3 +22,9 @@ export const provider = new GoogleAuthProvider();
 export const signInWithGoogle = () => {
   return signInWithPopup(auth, provider);
 };
+
+// Function to handle Sign-Out
+export const signOut = () => {
+  return firebaseSignOut(auth);
+};
+
