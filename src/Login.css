@@ -114,6 +114,7 @@
 /* Call-to-action section styling */
 .cta-section {
   margin-top: 20px;
+  padding-bottom: 30px; /* Added padding at the bottom to ensure button doesn't touch the bottom of the screen */
 }
 
 /* Button styling */

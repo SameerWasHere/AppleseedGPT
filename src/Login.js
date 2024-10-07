@@ -50,7 +50,7 @@ function Login({ setUser }) {
           </div>
           <div className="step">
             <h3>3. Share Your Chatbot</h3>
-            <p>Generate a link and share your personalized chatbot with friends, family, or your audience.</p>
+            <p>Share your personalized chatbot with friends, family, and your audience.</p>
           </div>
         </div>
       </section>
