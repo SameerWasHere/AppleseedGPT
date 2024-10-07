@@ -95,7 +95,7 @@
 /* Copy button styling */
 .copy-button {
   padding: 1px 3px;
-  font-size: 0.7rem;
+  font-size: 0.6rem;
   background-color: #007bff;
   color: white;
   border: none;
@@ -115,24 +115,20 @@
   align-items: center;
   width: 100%;
   padding: 10px;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 102;
 }
 
 .welcome-text {
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: #333;
   margin: 0;
   text-align: left;
 }
 
 .sign-out-button {
-  padding: 3px 6px;
-  font-size: 0.7rem;
+  padding: 2px 4px;
+  font-size: 0.6rem;
   background-color: #ff4b4b;
   color: white;
   border: none;
@@ -147,16 +143,6 @@
 
 /* Responsive adjustments */
 @media (max-width: 600px) {
-  .header-area {
-    height: 130px;
-    padding: 0 15px;
-  }
-
-  .header-top .sign-out-button {
-    padding: 3px 8px;
-    font-size: 0.8em;
-  }
-
   .public-link-container {
     padding: 10px;
     width: 100%;
@@ -169,14 +155,14 @@
 
   .copy-button {
     padding: 1px 3px;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
 
   .welcome-text {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
 
   .sign-out-button {
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
 }
