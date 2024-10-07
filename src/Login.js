@@ -31,7 +31,7 @@ function Login({ setUser }) {
     <div className="login-container">
       {/* Top Panel Section */}
       <div className="top-panel" style={{ height: 'calc(var(--vh, 1vh) * 100)' }}>
-        <div className="brand-logo">PersonalGPT</div>
+        <div className="brand-logo">aiChattyBot</div>
         <h1>Create Your Own Personal Chatbot</h1>
         <div className="scroll-down">scroll down</div>
       </div>
