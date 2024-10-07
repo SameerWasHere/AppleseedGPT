@@ -48,7 +48,8 @@ html, body {
 }
 
 /* Styling for the header icons */
-.header-icon {
+.left-icon {
+  margin-right: 20px; /* Ensure sufficient space between icon and center content */
   width: 40px;
   height: 40px;
   display: flex;
@@ -57,19 +58,20 @@ html, body {
   flex-shrink: 0;
 }
 
-.header-icon img {
+.right-icon {
+  margin-left: 20px; /* Ensure sufficient space between icon and center content */
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.left-icon img, .right-icon img {
   width: 100%;
   height: 100%;
   object-fit: contain;
-}
-
-/* Adjust margins to move icons inward */
-.header-icon.left-icon {
-  margin-right: 20px; /* Ensure sufficient space between icon and center content */
-}
-
-.header-icon.right-icon {
-  margin-left: 20px; /* Ensure sufficient space between icon and center content */
 }
 
 /* Center area containing the GIF and title */
@@ -186,7 +188,8 @@ html, body {
     font-size: 1.2em;
   }
 
-  .header-icon {
+  .header-icon.left-icon,
+  .header-icon.right-icon {
     width: 30px;
     height: 30px;
   }
@@ -206,4 +209,3 @@ html, body {
     padding: 10px;
   }
 }
-

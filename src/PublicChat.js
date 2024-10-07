@@ -79,7 +79,7 @@ function PublicChat() {
         {email && (
           <a
             href={`mailto:${email}`}
-            className="header-icon left-icon"
+            className="left-icon"
             aria-label="Send Email"
           >
             <img src="/mail.png" alt="Mail Icon" />
@@ -103,7 +103,7 @@ function PublicChat() {
             href={link}
             target="_blank"
             rel="noopener noreferrer"
-            className="header-icon right-icon"
+            className="right-icon"
             aria-label="LinkedIn Profile"
           >
             <img src="/linkedin.png" alt="LinkedIn Icon" />
