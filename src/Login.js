@@ -1,3 +1,4 @@
+// Login.js
 import React, { useEffect } from 'react';
 import { signInWithGoogle } from './firebase.js';
 import './Login.css';
@@ -51,6 +52,14 @@ function Login({ setUser }) {
           <div className="step">
             <h3>3. Share Your Chatbot</h3>
             <p>Share your personalized chatbot with friends, family, and your audience.</p>
+          </div>
+          <div className="step">
+            <h3>Check Out An Example Chatbot</h3>
+            <p>
+              <a href="https://www.aichattybot.com/chat/sbhutani95" target="_blank" rel="noopener noreferrer">
+                HERE
+              </a>
+            </p>
           </div>
         </div>
       </section>
