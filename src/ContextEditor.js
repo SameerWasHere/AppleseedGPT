@@ -206,6 +206,11 @@ function ContextEditor({ user, setUser }) {
           {loading ? 'Updating...' : 'Update Header Image URL'}
         </button>
       </div>
+
+      {/* Bottom Message Section */}
+      <div className="bottom-message">
+        <p>This project is self-funded and server and API costs can be high. If you like the site considering getting me a cup of coffee. Venmo: <a href="https://venmo.com/u/Sameer-Bhutani" target="_blank" rel="noopener noreferrer">@Sameer-Bhutani</a></p>
+      </div>
     </div>
   );
 }
