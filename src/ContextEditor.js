@@ -121,7 +121,7 @@ function ContextEditor({ user, setUser }) {
               <a href={publicLink} target="_blank" rel="noopener noreferrer">
                 {publicLink}
               </a>
-              <button className="copy-button" onClick={copyToClipboard}>Copy Link</button>
+              <button className="copy-button" onClick={copyToClipboard}>Copy</button>
             </div>
           </div>
         )}
