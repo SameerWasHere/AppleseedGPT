@@ -120,7 +120,13 @@ function ContextEditor({ user, setUser }) {
       <div className="form-section public-link-section">
         <h2>Your Public Chat Bot Link</h2>
         <p>This is the link to your chatbot, use it to share your chatbot with the world!</p>
-        <div className="public-link-display">{publicLink}</div>
+        <div className="public-link-display">
+          {publicLink && (
+            <a href={publicLink} target="_blank" rel="noopener noreferrer">
+              {publicLink}
+            </a>
+          )}
+        </div>
         <button className="copy-button" onClick={copyToClipboard}>Copy</button>
       </div>
 
