@@ -142,9 +142,76 @@ function ContextEditor({ user, setUser }) {
         </button>
       </div>
 
-      {/* Additional Editing Forms here as in original */}
+      <div className="form-section">
+        <h2>Context Editor</h2>
+        <p>This is where you enter the details of what you want the chatbot to know and how you want it to respond (Context Examples <a href="https://docs.google.com/document/d/1OrF2By4oYOCTa7FPaeluCbaT0ofcOv0pYmImAuqfyls/edit?usp=sharing" target="_blank" rel="noopener noreferrer">here</a>)</p>
+        <textarea
+          value={context}
+          onChange={(e) => setContext(e.target.value)}
+          placeholder="Edit the context..."
+        />
+        <button onClick={() => handleUpdate('context', context)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Context'}
+        </button>
+      </div>
+
+      <div className="form-section">
+        <h2>Initial Message Editor</h2>
+        <p>The first auto-message that is sent to someone visiting your chatbot</p>
+        <textarea
+          value={initialMessage}
+          onChange={(e) => setInitialMessage(e.target.value)}
+          placeholder="Edit the initial message..."
+        />
+        <button onClick={() => handleUpdate('initial_message', initialMessage)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Initial Message'}
+        </button>
+      </div>
+
+      <div className="form-section">
+        <h2>Email Editor</h2>
+        <p>An email address that the email button will link to</p>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Edit the email..."
+        />
+        <button onClick={() => handleUpdate('email', email)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Email'}
+        </button>
+      </div>
+
+      <div className="form-section">
+        <h2>Link Editor</h2>
+        <p>A link that the link button will link to (include full URL, Example: https://www.apple.com/)</p>
+        <input
+          type="text"
+          value={link}
+          onChange={(e) => setLink(e.target.value)}
+          placeholder="Edit the link..."
+        />
+        <button onClick={() => handleUpdate('link', link)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Link'}
+        </button>
+      </div>
+
+      <div className="form-section">
+        <h2>Header Image URL Editor</h2>
+        <p>A link to a public image file that will be used as the profile picture for the chatbot (use imgur.com to upload your own image and generate a link, Example: https://i.imgur.com/guQmexJ.gif)</p>
+        <input
+          type="text"
+          value={headerImageUrl}
+          onChange={(e) => setHeaderImageUrl(e.target.value)}
+          placeholder="Edit the Header Image URL..."
+        />
+        <button onClick={() => handleUpdate('headerImage', headerImageUrl)} disabled={loading}>
+          {loading ? 'Updating...' : 'Update Header Image URL'}
+        </button>
+      </div>
     </div>
   );
 }
 
 export default ContextEditor;
+
