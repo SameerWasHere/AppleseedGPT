@@ -34,21 +34,16 @@ html, body {
 
 /* Header area styling fixed to the top */
 .header-area {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 150px; /* Adjusted height to fit new content layout */
   display: flex;
-  flex-direction: column;
-  padding: 10px 20px; /* Horizontal padding */
-  background-color: rgba(255, 255, 255, 0.9); /* Slightly more opaque background */
+  flex-direction: row; /* Changed to align elements in a row */
+  justify-content: space-between;
+  align-items: center;
+  height: 150px;
+  padding: 10px 20px;
+  background-color: rgba(255, 255, 255, 0.9);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   z-index: 101;
-  -webkit-user-select: none; /* Prevents text selection */
-  touch-action: manipulation; /* Disables zoom behavior */
 }
 
 /* Header top section containing welcome text and sign-out button */
