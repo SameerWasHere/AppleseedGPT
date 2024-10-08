@@ -76,7 +76,7 @@ function PublicChat() {
       {/* Header Area */}
       <div className="header-area">
         {/* Mail Icon */}
-        {email && (
+        {email ? (
           <a
             href={`mailto:${email}`}
             className="left-icon"
@@ -84,6 +84,10 @@ function PublicChat() {
           >
             <img src="/mail.png" alt="Mail Icon" />
           </a>
+        ) : (
+          <div className="left-icon">
+            <img src="/mail.png" alt="Mail Icon" />
+          </div>
         )}
 
         <div className="header-center">
@@ -98,7 +102,7 @@ function PublicChat() {
         </div>
 
         {/* LinkedIn Icon */}
-        {link && (
+        {link ? (
           <a
             href={link}
             target="_blank"
@@ -108,6 +112,10 @@ function PublicChat() {
           >
             <img src="/linkedin.png" alt="LinkedIn Icon" />
           </a>
+        ) : (
+          <div className="right-icon">
+            <img src="/linkedin.png" alt="LinkedIn Icon" />
+          </div>
         )}
       </div>
       <Chat username={username} title={title} initialMessage={initialMessage} />
